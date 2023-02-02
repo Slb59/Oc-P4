@@ -1,0 +1,1 @@
+pycodestyle --exclude=venv . > ./outputs/pep8.log

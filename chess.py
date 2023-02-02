@@ -1,3 +1,7 @@
+
+1def f(a = 10):
+  return a*10
+
 def main():
     pass
     # args = ArgParser()

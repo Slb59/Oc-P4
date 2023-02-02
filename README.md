@@ -29,12 +29,21 @@ python chess.py
 Il est possible de générer un rapport flake8 en utilisant flake8-html.
 
 ```
-$ flake8 model view controller chess.py --format html --htmldir flake8_html_report
+$ flake8 chessmanager chess.py
 ```
 
 Le script ``report_flake8.sh`` fait cela.
 
 ```
-$ chmod +x make_report.sh
-$ ./make_report.sh
+$ chmod +x report_flake8.sh
+$ ./report_flake8.sh
+```
+
+Avec Pycharm, flake8 doit être installé comme outil externe
+
+Il est également possible de générer un rapport avec pycodestyle dans le répertoire outputs :
+
+```
+$ chmod +x pep.sh
+$ ./pep.sh
 ```
