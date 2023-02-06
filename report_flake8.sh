@@ -1,1 +1,1 @@
-flake8 chessmanager chess.py
+flake8 chessmanager chess.py --format=html --htmldir=flake-report

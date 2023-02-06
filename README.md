@@ -29,7 +29,7 @@ python chess.py
 Il est possible de générer un rapport flake8 en utilisant flake8-html.
 
 ```
-$ flake8 chessmanager chess.py
+$ flake8 chessmanager chess.py --format=html --htmldir=flake-report
 ```
 
 Le script ``report_flake8.sh`` fait cela.
