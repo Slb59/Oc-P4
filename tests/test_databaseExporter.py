@@ -4,6 +4,8 @@ from unittest import TestCase
 from chessmanager.models import Player
 from chessmanager.models import Tournament
 from chessmanager.controllers import DatabaseExporter
+from chessmanager.controllers import ChessManager
+from chessmanager.controllers import ArgParser
 
 
 class TestDatabaseExporter(TestCase):
@@ -33,10 +35,20 @@ class TestDatabaseExporter(TestCase):
             'Tournoi de Shamkir',
             'A la mémoire du joueur azerbaïdjanais Vugar Gashimov',
             'Shamkir',
-            datetime.datetime.strptime('31/03/2019','%d/%m/%Y'),
-            datetime.datetime.strptime('09/04/2019','%d/%m/%Y')
+            datetime.datetime.strptime('31/03/2019', '%d/%m/%Y'),
+            datetime.datetime.strptime('09/04/2019', '%d/%m/%Y')
         )
         list_of_tournaments = [tournament_1, tournament_2]
-        database = DatabaseExporter(list_of_players, list_of_tournaments, 'data/tournaments.json')
+
+        args = ArgParser()
+        the_parameters = args.read_parameters()
+        chess_manager = ChessManager(the_parameters)
+        chess_manager.players.append(player1)
+        chess_manager.players.append(player2)
+        chess_manager.players.append(player3)
+        chess_manager.tournaments.append(tournament_1)
+        chess_manager.tournaments.append(tournament_2)
+
+        database = DatabaseExporter(chess_manager, 'data/tournaments.json')
         database.save_database()
         self.fail()

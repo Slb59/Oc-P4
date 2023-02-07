@@ -12,6 +12,8 @@ class ChessManager:
         self.data_directory = parameters.data_directory
         self.app_messages = AppMessages(self)
         self.check_directories()
+        self.players = []
+        self.tournaments = []
 
     def __str__(self):
         return "Gestionnaire de tournois d'échecs"
