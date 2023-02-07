@@ -1,14 +1,9 @@
+from chessmanager.controllers import ArgParser
+from chessmanager.controllers import ChessManager
 
-1def f(a = 10):
-  return a*10
-
-def main():
-    pass
-    # args = ArgParser()
-    # the_parameters = args.read_parameters()
-    # my_app = BooksToScrape(the_parameters)
-    # my_app.scrapping()
-    # print(my_app)
 
 if __name__ == '__main__':
-    main()
+    args = ArgParser()
+    the_parameters = args.read_parameters()
+    my_app = ChessManager(the_parameters)
+    my_app.run()
