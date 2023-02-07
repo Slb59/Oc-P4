@@ -10,8 +10,8 @@ class ChessManager:
         self.version = chessmanager.controllers.__version__
         self.output_directory = parameters.output_directory
         self.data_directory = parameters.data_directory
-        self.check_directories()
         self.app_messages = AppMessages(self)
+        self.check_directories()
 
     def __str__(self):
         return "Gestionnaire de tournois d'échecs"
