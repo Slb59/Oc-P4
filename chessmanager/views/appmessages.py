@@ -6,4 +6,4 @@ class AppMessages:
         print(f"Le répertoire {self.chessmanager.output_directory} est créé")
 
     def display_data_directory_created(self):
-        pass
+        print(f"Le répertoire {self.chessmanager.data_directory} est créé")
