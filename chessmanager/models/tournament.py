@@ -1,7 +1,7 @@
-NOT_STARTED = 0
-STARTED = 1
-CLOSED = 2
-STATES = [NOT_STARTED, STARTED, CLOSED]
+TOURNAMENT_NOT_STARTED = 0
+TOURNAMENT_STARTED = 1
+TOURNAMENT_CLOSED = 2
+STATES = [TOURNAMENT_NOT_STARTED, TOURNAMENT_STARTED, TOURNAMENT_CLOSED]
 
 
 class Tournament:
@@ -17,7 +17,7 @@ class Tournament:
 
         self.rounds = []
         self.players = []
-        self.state = NOT_STARTED
+        self.state = TOURNAMENT_NOT_STARTED
 
     def __str__(self):
         return f'{self._tournament_id} : {self.title}'
