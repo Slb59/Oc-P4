@@ -4,6 +4,7 @@ from .parameters import Parameters
 
 
 class ArgParser:
+    """ Read arguments of the command line"""
     def __init__(self):
         self.parser = argparse.ArgumentParser('chess')
 
