@@ -27,7 +27,9 @@ class Tournament:
             return self._tournament_id == other._tournament_id
         else:
             return False
+
     @property
     def tournament_id(self):
         return self._tournament_id
+
 
