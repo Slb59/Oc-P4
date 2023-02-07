@@ -18,3 +18,7 @@ class Round:
 
     def __str__(self):
         return f'{self._round_id} : {self.name}'
+
+    @property
+    def round_id(self):
+        return self._round_id
