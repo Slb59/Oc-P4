@@ -1,6 +1,6 @@
 # Oc-P4 Développez un programme logiciel en Python
 ---
-![logo](data/Logo.png)
+![logo](data/logo.png)
 
 ## Objectif
 Ce programme est un projet proposé par [OpenClassRooms](https://openclassrooms.com/fr/) dans le cadre de la formation :
