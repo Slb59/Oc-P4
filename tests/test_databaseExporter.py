@@ -1,4 +1,5 @@
 import datetime
+import os
 from unittest import TestCase
 
 from chessmanager.models import Player
@@ -21,7 +22,7 @@ class TestDatabaseExporter(TestCase):
         player3 = Player('AB12347', 'Ding', 'Liren',
                          datetime.datetime.strptime('24/10/1992', '%d/%m/%Y'),
                          2788)
-        list_of_players = [player1, player2, player3]
+
         tournament_1 = Tournament(
             1,
             'Tournoi des candidats 2020',
@@ -38,7 +39,6 @@ class TestDatabaseExporter(TestCase):
             datetime.datetime.strptime('31/03/2019', '%d/%m/%Y'),
             datetime.datetime.strptime('09/04/2019', '%d/%m/%Y')
         )
-        list_of_tournaments = [tournament_1, tournament_2]
 
         args = ArgParser()
         the_parameters = args.read_parameters()
@@ -49,6 +49,10 @@ class TestDatabaseExporter(TestCase):
         chess_manager.tournaments.append(tournament_1)
         chess_manager.tournaments.append(tournament_2)
 
-        database = DatabaseExporter(chess_manager, 'data/tournaments.json')
+        filename = 'data/tournaments.json'
+        database = DatabaseExporter(chess_manager, filename)
         database.save_database()
-        self.fail()
+
+        self.assertEqual(
+            os.path.exists(filename) and os.path.getsize(filename) == 1525,
+            True)
