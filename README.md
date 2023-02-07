@@ -31,28 +31,28 @@ python chess.py
 
 ## Structure du projet
 
-# docs
+### docs
 Les documents d'analyse du projet se trouve dans le répertoire [docs](https://github.com/Slb59/Oc-P4/tree/main/docs).
 Il contient le diagramme des cas d'usages, le diagramme des classes et la description des menus proposés et de leur
 diagramme d'activité associé. Les spécifications techniques sont également stockées à cet endroit.
 
-# data
+### data
 On trouve dans le répertoire [data](https://github.com/Slb59/Oc-P4/tree/main/data), le logo du club d'échecs et la 
 base de données JSON
 
-# flake-report
+### flake-report
 Il s'agit du rapport flake8 assurant que le code respect les conventions PEP8. Il est possible de visualiser ce rapport 
 en ouvrant dans un navigateur le fichier [index.html](https://github.com/Slb59/Oc-P4/blob/main/flake-report/index.html)
 
-# output
+### output
 Le répertoire [outputs](https://github.com/Slb59/Oc-P4/tree/main/outputs) contient les données de log d'exécution
 du programme, le pep8.log généré par pycodestyle et les rapports demandés par le manager de tournois.
 
-# tests
+### tests
 Le répertoire [tests]() contient les programmes de test du programme. Cette technique assurant la non régression et 
 la qualité du code.
 
-# chessmanager
+### chessmanager
 Le répertoire [chessmanager](https://github.com/Slb59/Oc-P4/tree/main/chessmanager) contient le code du programme
 au format MVC.
 
