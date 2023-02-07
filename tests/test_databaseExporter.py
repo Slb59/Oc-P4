@@ -25,16 +25,16 @@ class TestDatabaseExporter(TestCase):
             'Tournoi des candidats 2020',
             'Double round-robin à 8 joueurs',
             'Dubai',
-            '17/03/2020',
-            '03/04/2020'
+            datetime.datetime.strptime('17/03/2020', '%d/%m/%Y'),
+            datetime.datetime.strptime('03/04/2020', '%d/%m/%Y')
         )
         tournament_2 = Tournament(
             2,
             'Tournoi de Shamkir',
             'A la mémoire du joueur azerbaïdjanais Vugar Gashimov',
             'Shamkir',
-            '31/03/2019',
-            '09/04/2019'
+            datetime.datetime.strptime('31/03/2019','%d/%m/%Y'),
+            datetime.datetime.strptime('09/04/2019','%d/%m/%Y')
         )
         list_of_tournaments = [tournament_1, tournament_2]
         database = DatabaseExporter(list_of_players, list_of_tournaments, 'data/tournaments.json')
