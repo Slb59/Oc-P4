@@ -6,3 +6,5 @@ from .argparser import ArgParser
 from .chessmanager import ChessManager
 from .database_loader import DatabaseLoader
 from .database_exporter import DatabaseExporter
+from .chessmanager_encoder import ChessManagerEncoder
+

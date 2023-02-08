@@ -16,9 +16,5 @@ class TestChessManager(TestCase):
             True
         )
 
-
-    def test_load_database(self):
-        self.fail()
-
     def test_run(self):
         self.fail()

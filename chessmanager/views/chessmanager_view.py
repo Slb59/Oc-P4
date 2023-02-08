@@ -1,4 +1,4 @@
-class AppMessages:
+class ChessManagerView:
     def __init__(self, chessmanager):
         self.chessmanager = chessmanager
 
@@ -7,3 +7,4 @@ class AppMessages:
 
     def display_data_directory_created(self):
         print(f"Le répertoire {self.chessmanager.data_directory} est créé")
+
