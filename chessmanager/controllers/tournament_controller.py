@@ -11,11 +11,31 @@ class TournamentController:
     def sort_players_by_score(self):
         self.tournament.players.sort(key=lambda x: x.current_score, reverse=True)
 
-    def pairing(self):
+    def pairing_first_round(self):
         list_pairing = []
+        self.sort_players_by_score()
         for i in range(0, len(self.tournament.players), 2):
             player_white = self.tournament.players[i]
             player_black = self.tournament.players[i+1]
             set_of_players = [player_white, player_black]
             list_pairing.append(set_of_players)
+        return list_pairing
+
+    def check_player_already_played_together(self, player_white, player_black):
+        return False
+
+    def pairing_next_round(self):
+        list_pairing = []
+        self.sort_players_by_score()
+        players_selected = []
+        for player_white in self.tournament.players:
+            if player_white not in players_selected:
+                players_selected.append(player_white)
+                # looking for player black
+                for player_black in self.tournament.players:
+                    if player_black not in players_selected and \
+                            not self.check_player_already_played_together(player_white, player_black):
+                        set_of_players = [player_white, player_black]
+                        list_pairing.append(set_of_players)
+                        players_selected.append(player_black)
         return list_pairing
