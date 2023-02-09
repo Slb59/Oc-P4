@@ -101,12 +101,26 @@ class TestTournamentController(TestCase):
                  '09/02/2023', '15:00')
 
         round1.matches = tournament_controller.pairing_first_round()
-        print('FIRST ROUND')
-        for match in round1.matches:
-            print(f'{match[0]} - {match[1]}')
+        a_tournament.rounds.append(round1)
 
-        result = tournament_controller.pairing_next_round()
-        print('NEXT ROUND')
-        for match in result:
-            print(f'{match[0]} - {match[1]}')
-        self.fail()
+        round2 = Round(2, 'Round 2', '09/02/2023', '17:00',
+                 '09/02/2023', '18:00')
+        round2.matches = tournament_controller.pairing_next_round()
+        a_tournament.rounds.append(round2)
+
+        round3 = Round(3, 'Round 3', '09/02/2023', '18:00',
+                  '09/02/2023', '19:00')
+        round3.matches = tournament_controller.pairing_next_round()
+        a_tournament.rounds.append(round3)
+
+        round4 = Round(4, 'Round 4', '09/02/2023', '19:00',
+                  '09/02/2023', '20:00')
+        round3.matches = tournament_controller.pairing_next_round()
+        a_tournament.rounds.append(round4)
+
+        result_must_be = [[player1, player5],
+                          [player2, player6],
+                          [player3, player7],
+                          [player4, player8]]
+
+        self.assertEqual(result_must_be, round3.matches)

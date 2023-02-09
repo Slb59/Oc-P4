@@ -22,6 +22,10 @@ class TournamentController:
         return list_pairing
 
     def check_player_already_played_together(self, player_white, player_black):
+        for a_round in self.tournament.rounds:
+            for match in a_round.matches:
+                if player_white in match and player_black in match:
+                    return True
         return False
 
     def pairing_next_round(self):
@@ -38,4 +42,5 @@ class TournamentController:
                         set_of_players = [player_white, player_black]
                         list_pairing.append(set_of_players)
                         players_selected.append(player_black)
+                        break
         return list_pairing
