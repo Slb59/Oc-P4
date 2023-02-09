@@ -25,13 +25,7 @@ class DatabaseLoader:
             players = []
             tournaments = []
             for elem in data['players']:
-                player = Player(
-                    elem['chess_id'],
-                    elem['last_name'],
-                    elem['first_name'],
-                    elem['birthday'],
-                    elem['chess_level']
-                )
+                player = Player(**elem)
                 players.append(player)
 
             for elem in data['tournaments']:
@@ -47,7 +41,7 @@ class DatabaseLoader:
                 )
                 tournaments.append(tournament)
 
-            club = Club(players, data['tournaments'])
+            club = Club(players, tournaments)
             chess_manager = ChessManager(self.parameters, club)
             self.database_view.display_database_loaded()
 
