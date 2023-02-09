@@ -5,6 +5,7 @@ class Player:
         self.first_name = first_name
         self.birthday = birthday
         self.chess_level = chess_level
+        self.current_score = 0
 
     def __str__(self):
         return f'{self.chess_id} : {self.last_name} {self.first_name}'
