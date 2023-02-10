@@ -1,9 +1,38 @@
 import random
+from chessmanager.views import RoundView
+from chessmanager.views import TournamentView
+from chessmanager.models import Round
 
 
 class TournamentController:
     def __init__(self, a_tournament):
         self.tournament = a_tournament
+
+    def create_round(self):
+        a_round_view = RoundView()
+
+        # input the round data
+        new_id = len(self.tournament.rounds) + 1
+        name = 'Round ' + str(new_id)
+        date_begin = a_round_view.prompt_date_begin()
+        time_begin = a_round_view.prompt_time_begin()
+        date_end = a_round_view.prompt_date_end()
+        time_end = a_round_view.prompt_time_end()
+
+        # pairing the players
+        new_round = Round(new_id, name, date_begin, time_begin, date_end, time_end)
+        set_of_players = self.pairing_next_round()
+
+        # create matches
+        for elem in set_of_players:
+            match = [elem[0], 0], [elem[1], 0]
+            new_round.matches.append(match)
+        # add the new round to the tournament
+        self.tournament.rounds.append(new_round)
+        # display tournaments data
+        a_tournament_view = TournamentView(self.tournament)
+        a_tournament_view.display_tournament_data()
+        # save database
 
     def shuffle_players(self):
         random.shuffle(self.tournament.players)
