@@ -130,6 +130,7 @@ class TestTournamentController(TestCase):
 
         tournament_controller = TournamentController(a_tournament)
         a_tournament.players = self.create_8_players()
+
         tournament_controller.create_round()
         print(a_tournament.rounds[0])
         print(a_tournament.rounds[0].matches)

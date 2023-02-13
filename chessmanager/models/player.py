@@ -15,3 +15,4 @@ class Player:
             return self.chess_id == other.chess_id
         else:
             return False
+

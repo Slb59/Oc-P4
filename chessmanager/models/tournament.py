@@ -28,6 +28,20 @@ class Tournament:
         else:
             return False
 
+    def to_dict(self):
+        dict = {
+        "_tournament_id": self._tournament_id,
+        "title": self.title,
+        "description": self.description,
+        "area": self.area,
+        "date_begin": self.date_begin,
+        "date_end": self.date_end,
+        "nb_of_rounds": self.nb_of_rounds,
+        "state": self.state
+        }
+        print(dict)
+        return dict
+
     @property
     def tournament_id(self):
         return self._tournament_id

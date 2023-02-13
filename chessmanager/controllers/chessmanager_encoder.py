@@ -21,7 +21,7 @@ class ChessManagerEncoder(json.JSONEncoder):
                 "chess_id": o.chess_id,
                 "last_name": o.last_name,
                 "first_name": o.first_name,
-                "birthday": o.birthday.strftime("%D/%m/%Y"),
+                "birthday": o.birthday.strftime("%d/%m/%Y"),
                 "chess_level": o.chess_level
             }
             return a_dict
@@ -31,8 +31,8 @@ class ChessManagerEncoder(json.JSONEncoder):
                 "title": o.title,
                 "description": o.description,
                 "area": o.area,
-                "date_begin": o.date_begin.strftime("%D/%m/%Y"),
-                "date_end": o.date_end.strftime("%D/%m/%Y"),
+                "date_begin": o.date_begin.strftime("%d/%m/%Y"),
+                "date_end": o.date_end.strftime("%d/%m/%Y"),
                 "nb_of_round": o.nb_of_rounds,
                 "state": o.state,
                 "rounds": o.rounds,
@@ -43,21 +43,15 @@ class ChessManagerEncoder(json.JSONEncoder):
             a_dict = {
                 "round_id": o.round_id,
                 "name": o.name,
-                "date_begin": o.date_begin.strftime("%D/%m/%Y"),
+                "date_begin": o.date_begin.strftime("%d/%m/%Y"),
                 "time_begin": o.time_begin.strftime("%H:%M:%S"),
-                "date_end": o.date_end.strftime("%D/%m/%Y"),
+                "date_end": o.date_end.strftime("%d/%m/%Y"),
                 "time_end": o.time_end.strftime("%H:%M:%S"),
                 "matches": o.matches,
                 "state": o.state
             }
             return a_dict
-        elif isinstance(o, Match):
-            a_dict = {
-                "no_match": o.no_match,
-                "white": o.player_white,
-                "black": o.player_black
-            }
-            return a_dict
+
         else:
             type_name = o.__class__.__name__
             raise TypeError("Unexpected type {0}".format(type_name))

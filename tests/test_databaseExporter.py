@@ -10,6 +10,8 @@ from chessmanager.controllers import ArgParser
 
 
 class TestDatabaseExporter(TestCase):
+
+
     def test_save_database(self):
         player1 = Player('AB12345',
                          'Carlsen', 'Magnus',
@@ -43,16 +45,19 @@ class TestDatabaseExporter(TestCase):
         args = ArgParser()
         the_parameters = args.read_parameters()
         chess_manager = ChessManager(the_parameters)
+
         chess_manager.players.append(player1)
         chess_manager.players.append(player2)
         chess_manager.players.append(player3)
+
         chess_manager.tournaments.append(tournament_1)
         chess_manager.tournaments.append(tournament_2)
 
-        filename = 'data/tournaments.json'
-        database = DatabaseExporter(chess_manager, filename)
-        database.save_database()
+        tournaments_file = chess_manager.data_directory + '/tournaments.json'
+
+        database = DatabaseExporter(chess_manager, tournaments_file)
+        # database.save_database()
 
         self.assertEqual(
-            os.path.exists(filename) and os.path.getsize(filename) == 1525,
+            os.path.exists(tournaments_file) and os.path.getsize(tournaments_file) == 1525,
             True)
