@@ -39,15 +39,15 @@ class ChessManager:
                 separators=(',', ': ')
             )
 
-    def save_rounds(self):
-        filename = self.data_directory + '/rounds.json'
-        with open(filename, 'w', encoding='utf8') as json_file:
-            json.dump(
-                [o.to_dict() for o in ???],
-                json_file,
-                indent=4,
-                separators=(',', ': ')
-            )
+    # def save_rounds(self):
+    #     filename = self.data_directory + '/rounds.json'
+    #     with open(filename, 'w', encoding='utf8') as json_file:
+    #         json.dump(
+    #             [o.to_dict() for o in ???],
+    #             json_file,
+    #             indent=4,
+    #             separators=(',', ': ')
+    #         )
 
     def check_directories(self):
         """ create the directories output and data if not exists """

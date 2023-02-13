@@ -1,57 +1,27 @@
 import json
+import datetime
 from chessmanager.controllers import ChessManager
 from chessmanager.models import Player
 from chessmanager.models import Tournament
 from chessmanager.models import Round
-from chessmanager.models import Match
 
 
 class ChessManagerEncoder(json.JSONEncoder):
 
     def default(self, o):
-
+        print(o)
         if isinstance(o, ChessManager):
             a_dict = {
-                "players": o.players,
-                "tournaments": o.tournaments
+                 "players": o.players,
+                 "tournaments": o.tournaments
             }
             return a_dict
-        elif isinstance(o, Player):
-            a_dict = {
-                "chess_id": o.chess_id,
-                "last_name": o.last_name,
-                "first_name": o.first_name,
-                "birthday": o.birthday.strftime("%d/%m/%Y"),
-                "chess_level": o.chess_level
-            }
-            return a_dict
-        elif isinstance(o, Tournament):
-            a_dict = {
-                "tournament_id": o.tournament_id,
-                "title": o.title,
-                "description": o.description,
-                "area": o.area,
-                "date_begin": o.date_begin.strftime("%d/%m/%Y"),
-                "date_end": o.date_end.strftime("%d/%m/%Y"),
-                "nb_of_round": o.nb_of_rounds,
-                "state": o.state,
-                "rounds": o.rounds,
-                "players": o.players
-            }
-            return a_dict
-        elif isinstance(o, Round):
-            a_dict = {
-                "round_id": o.round_id,
-                "name": o.name,
-                "date_begin": o.date_begin.strftime("%d/%m/%Y"),
-                "time_begin": o.time_begin.strftime("%H:%M:%S"),
-                "date_end": o.date_end.strftime("%d/%m/%Y"),
-                "time_end": o.time_end.strftime("%H:%M:%S"),
-                "matches": o.matches,
-                "state": o.state
-            }
-            return a_dict
-
+        elif isinstance(o, Tournament) \
+                or isinstance(o, Player) \
+                or isinstance(o, Round):
+            return o.__dict__
+        elif isinstance(o, datetime.datetime):
+            return o.isoformat()
         else:
             type_name = o.__class__.__name__
             raise TypeError("Unexpected type {0}".format(type_name))

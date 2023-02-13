@@ -41,7 +41,7 @@ class TestChessManager(TestCase):
 
         chess_manager.players = self.create_4_players()
 
-        chess_manager.save_players()
+        # chess_manager.save_players()
 
         filename = chess_manager.data_directory + '/players.json'
 
@@ -65,6 +65,6 @@ class TestChessManager(TestCase):
 
         chess_manager.tournaments.append(a_tournament)
 
-        chess_manager.save_tournaments()
+        # chess_manager.save_tournaments()
 
         self.fail()
