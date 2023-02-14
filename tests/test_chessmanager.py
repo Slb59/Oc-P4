@@ -39,6 +39,18 @@ class TestChessManager(TestCase, TestInit):
             os.path.exists(filename) and os.path.getsize(filename) == 829,
             True)
 
+    def test_load_players(self):
+        chess_manager = ChessManager(Parameters())
+        chess_manager.load_players()
+        print(chess_manager.players[0])
+        self.fail()
+
+    def test_load_tournaments(self):
+        chess_manager = ChessManager(Parameters())
+        chess_manager.load_tournaments()
+        print(chess_manager.tournaments[0])
+        self.fail()
+
     def test_save_tournaments(self):
 
         chess_manager = ChessManager(Parameters())
@@ -47,7 +59,7 @@ class TestChessManager(TestCase, TestInit):
 
         chess_manager.tournaments.append(a_tournament)
 
-        # chess_manager.save_tournaments()
+        chess_manager.save_tournaments()
 
         self.fail()
 

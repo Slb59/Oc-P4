@@ -2,12 +2,15 @@ import os
 import json
 import chessmanager
 
+from chessmanager.models import Player
+from chessmanager.models import Tournament
+
 from chessmanager.views import ChessManagerView
 from chessmanager.views import TournamentView
+
 from .tournament_controller import TournamentController
 from .round_controller import RoundController
 from ..models.round import ROUND_CLOSED
-from chessmanager.models import Player
 
 
 class ChessManager:
@@ -39,10 +42,9 @@ class ChessManager:
         filename = self.data_directory + '/players.json'
         f = open(filename)
         data = json.load(f)
-        for elem in data['players']:
+        for elem in data:
             player = Player(**elem)
-            players.append(player)
-
+            self.players.append(player)
 
     def save_tournaments(self):
         filename = self.data_directory + '/tournaments.json'
@@ -53,6 +55,16 @@ class ChessManager:
                 indent=4,
                 separators=(',', ': ')
             )
+
+    def load_tournaments(self):
+        filename = self.data_directory + '/tournaments.json'
+        f = open(filename)
+        data = json.load(f)
+        for elem in data:
+            print(elem)
+            tournament = Tournament(**elem)
+            self.tournaments.append(tournament)
+
 
     # def save_rounds(self):
     #     filename = self.data_directory + '/rounds.json'
