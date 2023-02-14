@@ -46,7 +46,7 @@ class TournamentController:
 
         # create matches
         for elem in set_of_players:
-            match = [elem[0], 0], [elem[1], 0]
+            match = [elem[0].chess_id, 0], [elem[1].chess_id, 0]
             new_round.matches.append(match)
         # add the new round to the tournament
         self.tournament.rounds.append(new_round)
