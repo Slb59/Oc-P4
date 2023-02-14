@@ -4,9 +4,10 @@ ROUND_STATES = [ROUND_STARTED, ROUND_CLOSED]
 
 
 class Round:
-    def __init__(self, new_id, name, date_begin, time_begin,
+    def __init__(self, round_id, name,
+                 date_begin, time_begin,
                  date_end, time_end):
-        self._round_id = new_id
+        self.round_id = round_id
         self.name = name,
         self.date_begin = date_begin
         self.time_begin = time_begin
@@ -17,8 +18,5 @@ class Round:
         self.state = ROUND_STARTED
 
     def __str__(self):
-        return f'{self._round_id} : {self.name}'
+        return f'{self.round_id} : {self.name}'
 
-    @property
-    def round_id(self):
-        return self._round_id
