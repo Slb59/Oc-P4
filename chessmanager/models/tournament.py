@@ -14,10 +14,12 @@ class Tournament:
         self.date_begin = date_begin
         self.date_end = date_end
         self.nb_of_rounds = nb_of_rounds
+        self.state = TOURNAMENT_NOT_STARTED
+        self.winner = ''
 
         self.rounds = []
         self.players = []
-        self.state = TOURNAMENT_NOT_STARTED
+
 
     def __str__(self):
         return f'{self._tournament_id} : {self.title}'

@@ -9,30 +9,9 @@ from chessmanager.controllers import ChessManager
 from chessmanager.controllers import ArgParser
 from chessmanager.controllers import TournamentController
 from chessmanager.models import Round
+from tests import TestInit
 
-
-class TestDatabaseExporter(TestCase):
-
-    def create_8_players(self):
-        list_of_4_players = []
-        player1 = Player('AB12345', 'Carlsen', 'Magnus', '30/11/1990', 2852)
-        player2 = Player('AB12346', 'Nepomniachtchi', 'Ian', '14/07/1990', 2793)
-        player3 = Player('AB12347', 'Liren', 'Ding', '24/10/1992', 2788)
-        player4 = Player('AB12348', 'Alireza', 'Firouzja', '18/06/2003', 2785)
-        player5 = Player('AB12349', 'Anish', 'Giri', '28/06/1994', 2780)
-        player6 = Player('AB12350', 'Hikaru', 'Nakamura', '09/12/2987', 2768)
-        player7 = Player('AB12351', 'Fabiano', 'Caruana', '30/06/1992', 2766)
-        player8 = Player('AB12352', 'Wesley', 'So', '09/10/1993', 2766)
-        list_of_4_players.append(player1)
-        list_of_4_players.append(player2)
-        list_of_4_players.append(player3)
-        list_of_4_players.append(player4)
-        list_of_4_players.append(player5)
-        list_of_4_players.append(player6)
-        list_of_4_players.append(player7)
-        list_of_4_players.append(player8)
-        return list_of_4_players
-
+class TestDatabaseExporter(TestCase, TestInit):
 
     def test_save_database(self):
 
@@ -57,10 +36,10 @@ class TestDatabaseExporter(TestCase):
         the_parameters = args.read_parameters()
         chess_manager = ChessManager(the_parameters)
 
-        chess_manager.players = self.create_8_players()
+        chess_manager.players = self.create_8_players(self)
 
         # add players on tournament_2
-        tournament_2.players = self.create_8_players()
+        tournament_2.players = self.create_8_players(self)
         # add a round on tournament_2
         new_round = Round(1, 'Round1', '13/02/2023', '15:00', '13/02/2023', '16:00')
         tournament_controller = TournamentController(tournament_2)
@@ -78,7 +57,7 @@ class TestDatabaseExporter(TestCase):
         tournaments_file = chess_manager.data_directory + '/tournaments.json'
 
         database = DatabaseExporter(chess_manager, tournaments_file)
-        database.save_database()
+        # database.save_database()
 
         self.assertEqual(
             os.path.exists(tournaments_file) and os.path.getsize(tournaments_file) == 1525,

@@ -1,4 +1,6 @@
 import random
+
+from chessmanager.models.round import ROUND_STARTED
 from chessmanager.views import RoundView
 from chessmanager.views import TournamentView
 from chessmanager.models import Round
@@ -7,6 +9,25 @@ from chessmanager.models import Round
 class TournamentController:
     def __init__(self, a_tournament):
         self.tournament = a_tournament
+
+    def set_winner(self):
+        winner = self.tournament.players[0]
+        for player in self.tournament.players:
+            if player.current_score > winner:
+                winner = player.current_score
+        self.tournament.winner = winner
+
+    def get_round_id(self, round_id):
+        for r in self.tournament.rounds:
+            if round_id == r.round_id:
+                return r
+        return None
+
+    def check_all_rounds_closed(self):
+        for a_round in self.tournament.rounds:
+            if a_round.state == ROUND_STARTED:
+                return False
+        return True
 
     def create_round(self):
         a_round_view = RoundView()
@@ -32,7 +53,6 @@ class TournamentController:
         # display tournaments data
         a_tournament_view = TournamentView(self.tournament)
         a_tournament_view.display_tournament_data()
-        # save database
 
     def shuffle_players(self):
         random.shuffle(self.tournament.players)
