@@ -9,7 +9,7 @@ from tests import TestInit
 class TestTournamentController(TestCase, TestInit):
 
     def test_sort_players_by_score(self):
-        a_tournament = self.create_a_tournament()
+        a_tournament = self.create_a_tournament(self)
 
         list_of_4_players = self.create_4_players(self)
 
@@ -31,7 +31,7 @@ class TestTournamentController(TestCase, TestInit):
                          and a_tournament.players[3] == list_of_4_players[3], True)
 
     def test_pairing_first_round(self):
-        a_tournament = self.create_a_tournament()
+        a_tournament = self.create_a_tournament(self)
 
         list_of_4_players = self.create_4_players(self)
 
@@ -49,8 +49,8 @@ class TestTournamentController(TestCase, TestInit):
         self.assertEqual(result, result_must_be)
 
     def test_pairing_next_round(self):
-        a_tournament = self.create_a_tournament()
-        list_of_8_players = self.create_8_players()
+        a_tournament = self.create_a_tournament(self)
+        list_of_8_players = self.create_8_players(self)
         a_tournament.players.extend(list_of_8_players)
 
         tournament_controller = TournamentController(a_tournament)
@@ -84,13 +84,13 @@ class TestTournamentController(TestCase, TestInit):
 
     def test_create_round(self):
 
-        a_tournament = self.create_a_tournament()
+        a_tournament = self.create_a_tournament(self)
 
         tournament_controller = TournamentController(a_tournament)
         a_tournament.players = self.create_8_players(self)
 
         tournament_controller.create_round()
-        print(a_tournament.rounds[0])
-        print(a_tournament.rounds[0].matches)
 
-        self.fail()
+        result = a_tournament.rounds[0].matches[0][0]
+
+        self.assertEqual(result, ['AB12345', 0])

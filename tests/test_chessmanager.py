@@ -40,25 +40,43 @@ class TestChessManager(TestCase, TestInit):
         chess_manager = ChessManager(Parameters())
         chess_manager.load_players()
         print(chess_manager.players[0])
-        self.fail()
+        result = str(chess_manager.players[0])
+        self.assertEqual(result, 'Carlsen Magnus')
 
     def test_load_tournaments(self):
         chess_manager = ChessManager(Parameters())
         chess_manager.load_tournaments()
-        print(chess_manager.tournaments[0])
-        self.fail()
+        result_1 = str(chess_manager.tournaments[0].players[0])
+        result_2 = str(chess_manager.tournaments[0].rounds[0].matches[0][0][0])
+        self.assertEqual(result_1 + ' ' + result_2, 'Carlsen Magnus AB12345')
 
     def test_save_tournaments(self):
 
         chess_manager = ChessManager(Parameters())
-
         a_tournament = self.create_a_tournament(self)
+        a_tournament.players = self.create_8_players(self)
 
+        a_round = Round(1, "Round 1", '09/02/2023', '14:00',
+                        '09/02/2023', '15:00')
+
+        match = ['AB12345', 0], ['AB12346', 0]
+        a_round.matches.append(match)
+        match = ['AB12347', 0], ['AB12348', 0]
+        a_round.matches.append(match)
+        match = ['AB12349', 0], ['AB12310', 0]
+        a_round.matches.append(match)
+        match = ['AB12311', 0], ['AB12312', 0]
+        a_round.matches.append(match)
+
+        a_tournament.rounds.append(a_round)
         chess_manager.tournaments.append(a_tournament)
 
         chess_manager.save_tournaments()
 
-        self.fail()
+        filename = chess_manager.data_directory + '/tournaments.json'
+        self.assertEqual(
+            os.path.exists(filename) and os.path.getsize(filename) == 4095,
+            True)
 
     def test_close_round(self):
         parameters = Parameters()
