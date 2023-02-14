@@ -44,7 +44,7 @@ class TestInit:
         a_tournament = Tournament(
             1,
             'Tournoi des candidats 2020',
-            'Double round-robin à 8 joueurs',
+            'Double round-robin a 8 joueurs',
             'Dubai',
             '17/03/2020',
             '03/04/2020'
