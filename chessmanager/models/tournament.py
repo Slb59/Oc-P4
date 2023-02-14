@@ -17,32 +17,32 @@ class Tournament:
         self.state = TOURNAMENT_NOT_STARTED
         self.winner = ''
 
-        self.rounds = []
-        self.players = []
-
+        self.rounds = []  # list of the round (max length : nb_of_rounds)
+        self.players = []  # list of the players selected for the tournament
 
     def __str__(self):
         return f'{self._tournament_id} : {self.title}'
 
     def __eq__(self, other):
+        """ check if 2 tournament are equal : the tournament_id are equal """
         if isinstance(other, Tournament):
             return self._tournament_id == other._tournament_id
         else:
             return False
 
     def to_dict(self):
-        dict = {
-        "_tournament_id": self._tournament_id,
-        "title": self.title,
-        "description": self.description,
-        "area": self.area,
-        "date_begin": self.date_begin,
-        "date_end": self.date_end,
-        "nb_of_rounds": self.nb_of_rounds,
-        "state": self.state
+        """ give the class tournament in a dictoniary format for json save """
+        a_dict = {
+            "_tournament_id": self._tournament_id,
+            "title": self.title,
+            "description": self.description,
+            "area": self.area,
+            "date_begin": self.date_begin,
+            "date_end": self.date_end,
+            "nb_of_rounds": self.nb_of_rounds,
+            "state": self.state
         }
-        print(dict)
-        return dict
+        return a_dict
 
     @property
     def tournament_id(self):

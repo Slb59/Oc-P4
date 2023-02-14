@@ -4,10 +4,7 @@ from unittest import TestCase
 
 from chessmanager.controllers import Parameters
 from chessmanager.controllers import ChessManager
-from chessmanager.controllers import ArgParser
 from chessmanager.controllers import TournamentController
-from chessmanager.models import Player
-from chessmanager.models import Tournament
 from chessmanager.models import Round
 from tests import TestInit
 
@@ -80,6 +77,6 @@ class TestChessManager(TestCase, TestInit):
         a_tournament.rounds.append(a_round)
         a_chess_manager.tournaments.append(a_tournament)
 
-        a_chess_manager.close_round()
+        # a_chess_manager.close_round()
 
         self.fail()
