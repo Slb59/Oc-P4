@@ -45,6 +45,10 @@ class TournamentView:
             for a_round in self.tournament.rounds:
                 a_round_view = RoundView(a_round)
                 a_round_view.display_round_data()
+
+    def error_tournament_not_started(self):
+        print("!! Ce tournoi n'a pas démarré")
+
     def error_tournament_started(self):
         print("!! Ce tournoi est déjà en cours")
     def error_tournament_closed(self):

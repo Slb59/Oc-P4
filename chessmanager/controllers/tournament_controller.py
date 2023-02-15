@@ -40,6 +40,11 @@ class TournamentController:
                 return r
         return None
 
+    def record_score(self):
+        last_round = self.tournament.rounds[-1]
+        round_controller = RoundController(last_round)
+        round_controller.record_a_score()
+
     def check_all_rounds_closed(self) -> bool:
         """
         if all the rounds are created and closed

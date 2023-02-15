@@ -14,7 +14,7 @@ from chessmanager.views import DatabaseView
 from .tournament_controller import TournamentController
 from .round_controller import RoundController
 from ..models.round import ROUND_CLOSED
-from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED
+from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
 
 
 class ChessManager:
@@ -250,6 +250,35 @@ class ChessManager:
             a_tournament.state = TOURNAMENT_STARTED
             self.save_tournaments()
 
+    def record_a_match(self):
+        """
+        - display the tournaments
+        - ask the id of the tournament to record
+        - record the scores
+        - save database
+        :return:
+        """
+        chess_manager_view = ChessManagerView(self)
+        # display the tournaments
+        chess_manager_view.display_all_tournaments()
+        tournament_id = chess_manager_view.prompt_tournament_id()
+        a_tournament = self.get_tournament(tournament_id)
+        tournament_view = TournamentView(a_tournament)
+        if a_tournament is None:
+            chess_manager_view.error_tournament_not_found()
+        elif a_tournament.state == TOURNAMENT_CLOSED:
+            tournament_view.error_tournament_closed()
+        elif a_tournament.state == TOURNAMENT_NOT_STARTED:
+            tournament_view.error_tournament_not_started()
+        else:
+            tournament_view.display_tournament_data()
+            tournament_controller = TournamentController(a_tournament)
+            tournament_controller.record_score()
+            tournament_view.display_tournament_data()
+            self.save_tournaments()
+
+
+
     def run(self):
         """ run the application """
 
@@ -295,8 +324,7 @@ class ChessManager:
 
             # record the results
             elif answer == chess_manager_view.main_menu_choices()[4]:
-                # TODO:
-                pass
+                self.record_a_match()
 
             # end a round
             elif answer == chess_manager_view.main_menu_choices()[5]:

@@ -42,6 +42,24 @@ class RoundView:
             print("Format de l'heure incorrect")
             a_time = questionary.text('Heure de fin (HH:MM):').ask()
 
+    def prompt_match_result(self, index) -> int:
+        print('Saisir 1 si le joueur de gauche gagne, saisir 2 si le joueur de droite gagne, 0 sinon')
+        result = questionary.text(f'Résultat du match {index+1}:').ask()
+        while not int(result) in [0, 1, 2]:
+            print('Veuillez saisir 0, 1 ou 2 selon le résultat du match')
+            result = questionary.text(f'Résultat du match {index+1}:').ask()
+        return int(result)
+
+    def prompt_a_match_result(self) -> tuple:
+        index = questionary.text("Numéro du match (1 à 4)").ask()
+        while not int(index) in [1, 2, 3, 4]:
+            print('Saisir une valeur entre 1 et 4')
+            index = questionary.text("Numéro du match (1 à 4)").ask()
+        result = questionary.text(f'Résultat du match {index}:').ask()
+        while not int(result) in [0, 1, 2]:
+            print('Veuillez saisir 0, 1 ou 2 selon le résultat du match')
+            result = questionary.text(f'Résultat du match {index}:').ask()
+        return int(index)-1, int(result)
     def display_create_a_round(self):
         print("un nouveau round commence !!")
 
@@ -54,7 +72,7 @@ class RoundView:
             text_match = f'Match {i+1}'
             nb_of_space = len_for_players - len(str(match[0][0]))
             text_white = str(match[0][0]) + nb_of_space*' ' + '|' + f' score:{match[0][1]}'
-            nb_of_space = len_for_players - len(str(match[0][0]))
+            nb_of_space = len_for_players - len(str(match[1][0]))
             text_black = f' | {match[1][0]}' + nb_of_space*' ' + '|' + f' score:{match[1][1]}'
             print(text_match + ' | ' + text_white
                   + (pos_to_align-len(text_white))*' ' + text_black)
