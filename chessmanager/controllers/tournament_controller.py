@@ -67,24 +67,30 @@ class TournamentController:
         # input the round data
         new_id = len(self.tournament.rounds) + 1
         name = 'Round ' + str(new_id)
-        date_begin = a_round_view.prompt_date_begin()
-        time_begin = a_round_view.prompt_time_begin()
-        date_end = a_round_view.prompt_date_end()
-        time_end = a_round_view.prompt_time_end()
+        date_data = a_round_view.prompt_begin()
 
         # pairing the players
-        new_round = Round(new_id, name, date_begin, time_begin, date_end, time_end)
+        new_round = Round(new_id, name, date_data[0], date_data[1], None, None)
         set_of_players = self.pairing_next_round()
 
         # create matches
         for elem in set_of_players:
-            match = [elem[0].chess_id, 0], [elem[1].chess_id, 0]
+            match = [elem[0], 0], [elem[1], 0]
             new_round.matches.append(match)
         # add the new round to the tournament
         self.tournament.rounds.append(new_round)
         # display tournaments data
         a_tournament_view = TournamentView(self.tournament)
         a_tournament_view.display_tournament_data()
+
+    def update_players_score(self, a_round: Round):
+        """
+        when the round is finish, update the current score of the players
+        :return:
+        """
+        for a_match in a_round.matches:
+            a_match[0][0].current_score += a_match[0][1]
+            a_match[1][0].current_score += a_match[1][1]
 
     def close_round(self):
         """
@@ -114,6 +120,7 @@ class TournamentController:
                 a_round.date_end = round_data[0]
                 a_round.time_end = round_data[1]
                 a_round.state = ROUND_CLOSED
+                self.update_players_score(a_round)
             else:
                 tournament_view.error_all_matches_not_closed()
 
