@@ -6,7 +6,7 @@ ROUND_STATES = [ROUND_STARTED, ROUND_CLOSED]
 class Round:
     def __init__(self, round_id, name,
                  date_begin, time_begin,
-                 date_end='', time_end=''):
+                 date_end='', time_end='', state=ROUND_STARTED):
         self.round_id = round_id
         self.name = name,
         self.date_begin = date_begin
@@ -15,7 +15,7 @@ class Round:
         self.time_end = time_end
 
         self.matches = []
-        self.state = ROUND_STARTED
+        self.state = state
 
     def __str__(self):
         return f'{self.round_id} : {self.name}'

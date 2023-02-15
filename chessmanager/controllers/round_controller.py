@@ -37,7 +37,6 @@ class RoundController:
                 match[1][1] = 0.5
 
     def record_a_score(self):
-
         """
         ask the index of the match
         ask the result

@@ -12,8 +12,6 @@ from chessmanager.views import TournamentView
 from chessmanager.views import DatabaseView
 
 from .tournament_controller import TournamentController
-from .round_controller import RoundController
-from ..models.round import ROUND_CLOSED
 from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
 
 
@@ -81,7 +79,8 @@ class ChessManager:
                     tournament.players.append(new_player)
                 for a_round in elem['rounds']:
                     new_round = Round(a_round['round_id'], a_round['name'], a_round['date_begin'],
-                                      a_round['time_begin'], a_round['date_end'], a_round['time_end'])
+                                      a_round['time_begin'], a_round['date_end'], a_round['time_end'],
+                                      a_round['state'])
                     for a_match in a_round['matches']:
                         player_white = Player(**a_match[0][0])
                         player_black = Player(**a_match[1][0])
@@ -113,17 +112,29 @@ class ChessManager:
         return None
 
     def close_round(self):
+        """
+        - ask a tournament id
+        - close a round
+        - save the database
+        :return:
+        """
         chess_manager_view = ChessManagerView(self)
+        chess_manager_view.display_all_tournaments()
 
         # prompt id tournament
         tournament_id = chess_manager_view.prompt_tournament_id()
         tournament = self.get_tournament(tournament_id)
-
+        tournament_view = TournamentView(tournament)
         if tournament is None:
             chess_manager_view.error_tournament_not_found()
+        elif tournament.state == TOURNAMENT_CLOSED:
+            tournament_view.error_tournament_closed()
+        elif tournament.state == TOURNAMENT_NOT_STARTED:
+            tournament_view.error_tournament_not_started()
         else:
             tournament_controller = TournamentController(tournament)
             tournament_controller.close_round()
+        self.save_tournaments()
 
     def check_directories(self):
         """ create the directories output and data if not exists """
@@ -277,8 +288,6 @@ class ChessManager:
             tournament_view.display_tournament_data()
             self.save_tournaments()
 
-
-
     def run(self):
         """ run the application """
 
@@ -328,8 +337,7 @@ class ChessManager:
 
             # end a round
             elif answer == chess_manager_view.main_menu_choices()[5]:
-                # TODO:
-                pass
+                self.close_round()
 
             # generate reports
             elif answer == chess_manager_view.main_menu_choices()[5]:

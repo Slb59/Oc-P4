@@ -9,6 +9,7 @@ from chessmanager.views import TournamentView
 from chessmanager.models import Round
 
 from .round_controller import RoundController
+from ..models.tournament import TOURNAMENT_CLOSED
 
 
 class TournamentController:
@@ -113,30 +114,33 @@ class TournamentController:
         round_id = tournament_view.prompt_round_id()
         tournament_controller = TournamentController(self.tournament)
         a_round = tournament_controller.get_round_id(round_id)
+        round_view = RoundView(a_round)
+        round_controller = RoundController(a_round)
 
         if a_round is None:
             tournament_view.error_round_not_exist()
-        else:
-
-            # test all matches closed
-            round_controller = RoundController(a_round)
-            round_view = RoundView(a_round)
-            if round_controller.check_all_score_record():
-                round_data = round_view.prompt_end()
-                a_round.date_end = round_data[0]
-                a_round.time_end = round_data[1]
-                a_round.state = ROUND_CLOSED
-                self.update_players_score(a_round)
-            else:
-                tournament_view.error_all_matches_not_closed()
+        elif a_round.state == ROUND_CLOSED:
+            round_view.error_round_closed()
+        elif round_controller.check_all_score_record():
+            round_data = round_view.prompt_end()
+            a_round.date_end = round_data[0]
+            a_round.time_end = round_data[1]
+            a_round.state = ROUND_CLOSED
+            self.update_players_score(a_round)
 
             if tournament_controller.check_all_rounds_closed():
                 tournament_controller.set_winner()
                 # display the winner
                 tournament_view.display_winner()
-            else:
+                self.tournament.state = TOURNAMENT_CLOSED
+            elif len(self.tournament.rounds) < self.tournament.nb_of_rounds:
                 # create a new round
                 tournament_controller.create_round()
+        else:
+            tournament_view.error_all_matches_not_closed()
+
+
+
 
     def shuffle_players(self):
         """ shuffle the players """
