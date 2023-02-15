@@ -94,13 +94,18 @@ class ChessManagerView:
             player_view.display_player_data()
             print('')
 
+    def display_chess_data(self):
+        print(f" Nombre de joueur : {len(self.chess_manager.players)}")
+        print(f" Nombre de tournoi : {len(self.chess_manager.tournaments)}")
+
     def display_all_tournaments(self):
-        if len(self.chess_manager.tournaments):
+        if len(self.chess_manager.tournaments) == 0:
             print('!! Aucun tournoi créer dans la base')
-        for tournament in self.chess_manager.tournaments:
-            tournament_view = TournamentView(tournament)
-            tournament_view.display_tournament_data()
-            print('')
+        else:
+            for tournament in self.chess_manager.tournaments:
+                tournament_view = TournamentView(tournament)
+                tournament_view.display_tournament_resume()
+                print('')
     def display_players_selection(self):
         print('Sélectionnez 8 joueurs parmis les joueurs ci-dessus')
 

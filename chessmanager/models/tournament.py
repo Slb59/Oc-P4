@@ -44,7 +44,7 @@ class Tournament:
             list_of_players.append(a_player_dict)
         list_of_rounds = []
         for a_round in self.rounds:
-            a_round_dict = a_round.__dict__
+            a_round_dict = a_round.to_dict()
             list_of_rounds.append(a_round_dict)
         a_dict = {
             "tournament_id": self.tournament_id,

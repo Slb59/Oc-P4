@@ -30,6 +30,7 @@ class RoundView:
         while not self.check_time_format(a_time):
             print("Format de l'heure incorrect")
             a_time = questionary.text('Heure de début (HH:MM):').ask()
+        return a_date, a_time
 
     def prompt_end(self):
         a_date = questionary.text('Date de fin (DD/MM/YYYY):').ask()
@@ -41,6 +42,9 @@ class RoundView:
             print("Format de l'heure incorrect")
             a_time = questionary.text('Heure de fin (HH:MM):').ask()
 
+    def display_create_a_round(self):
+        print("un nouveau round commence !!")
+
     def display_round_data(self):
         pos_to_align = 50
         len_for_players = 25
@@ -48,7 +52,9 @@ class RoundView:
               f' au {self.round.date_end} {self.round.time_end}')
         for i, match in enumerate(self.round.matches):
             text_match = f'Match {i+1}'
-            nb_of_space = len_for_players-len(str(match[0][0]))
+            nb_of_space = len_for_players - len(str(match[0][0]))
             text_white = str(match[0][0]) + nb_of_space*' ' + '|' + f' score:{match[0][1]}'
-            text_black = f' | {match[1][0]}, score:{match[1][1]}'
-            print(text_match + ' | ' + text_white + (pos_to_align-len(text_white))*' ' + text_black)
+            nb_of_space = len_for_players - len(str(match[0][0]))
+            text_black = f' | {match[1][0]}' + nb_of_space*' ' + '|' + f' score:{match[1][1]}'
+            print(text_match + ' | ' + text_white
+                  + (pos_to_align-len(text_white))*' ' + text_black)

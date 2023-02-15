@@ -63,6 +63,7 @@ class TournamentController:
         :return: None
         """
         a_round_view = RoundView()
+        a_round_view.display_create_a_round()
 
         # input the round data
         new_id = len(self.tournament.rounds) + 1
@@ -70,7 +71,7 @@ class TournamentController:
         date_data = a_round_view.prompt_begin()
 
         # pairing the players
-        new_round = Round(new_id, name, date_data[0], date_data[1], None, None)
+        new_round = Round(new_id, name, date_data[0], date_data[1])
         set_of_players = self.pairing_next_round()
 
         # create matches
@@ -179,6 +180,7 @@ class TournamentController:
         list_pairing = []
         self.sort_players_by_score()
         players_selected = []
+        print('ici')
         for player_white in self.tournament.players:
             if player_white not in players_selected:
                 players_selected.append(player_white)

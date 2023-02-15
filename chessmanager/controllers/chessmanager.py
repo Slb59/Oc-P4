@@ -14,6 +14,7 @@ from chessmanager.views import DatabaseView
 from .tournament_controller import TournamentController
 from .round_controller import RoundController
 from ..models.round import ROUND_CLOSED
+from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED
 
 
 class ChessManager:
@@ -81,7 +82,11 @@ class ChessManager:
                 for a_round in elem['rounds']:
                     new_round = Round(a_round['round_id'], a_round['name'], a_round['date_begin'],
                                       a_round['time_begin'], a_round['date_end'], a_round['time_end'])
-                    new_round.matches = a_round['matches']
+                    for a_match in a_round['matches']:
+                        player_white = Player(**a_match[0][0])
+                        player_black = Player(**a_match[1][0])
+                        new_match = [player_white, a_match[0][1]], [player_black, a_match[1][1]]
+                        new_round.matches.append(new_match)
 
                     tournament.rounds.append(new_round)
 
@@ -222,15 +227,28 @@ class ChessManager:
 
     def start_tournament(self):
         """
-        - display the tournaments not ended
+        - display the tournaments
         - ask the id of the tournament to start
         - create the first round of the tournament
         """
         chess_manager_view = ChessManagerView(self)
-        # display the tournaments not ended
+        # display the tournaments
         chess_manager_view.display_all_tournaments()
-        # TODO:
-        pass
+        tournament_id = chess_manager_view.prompt_tournament_id()
+        a_tournament = self.get_tournament(tournament_id)
+        if a_tournament is None:
+            chess_manager_view.error_tournament_not_found()
+        elif a_tournament.state == TOURNAMENT_CLOSED:
+            tournament_view = TournamentView(a_tournament)
+            tournament_view.error_tournament_closed()
+        elif a_tournament.state == TOURNAMENT_STARTED:
+            tournament_view = TournamentView(a_tournament)
+            tournament_view.error_tournament_started()
+        else:
+            tournament_controller = TournamentController(a_tournament)
+            tournament_controller.create_round()
+            a_tournament.state = TOURNAMENT_STARTED
+            self.save_tournaments()
 
     def run(self):
         """ run the application """
@@ -242,7 +260,7 @@ class ChessManager:
         # load database
         self.load_players()
         self.load_tournaments()
-        print('')
+        chess_manager_view.display_chess_data()
 
         running = True
 
