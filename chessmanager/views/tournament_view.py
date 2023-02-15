@@ -7,12 +7,12 @@ class TournamentView:
     def __init__(self, a_tournament=None):
         self.tournament = a_tournament
 
-    def display_winner(self):
-        print('Le gagnant du tournoi est: ' + str(self.tournament.winner))
-
     def prompt_round_id(self):
         round_id = input('Saisissez le numéro du round:')
         return int(round_id)
+
+    def display_winner(self):
+        print('Le gagnant du tournoi est: ' + str(self.tournament.winner))
 
     def display_tournament_data(self):
         text = f'****  TOURNOI: {str(self.tournament)} ****'
@@ -37,6 +37,12 @@ class TournamentView:
             for a_round in self.tournament.rounds:
                 a_round_view = RoundView(a_round)
                 a_round_view.display_round_data()
+
+    def error_round_not_exist(self):
+        print("!!! Ce round n'existe pas.")
+
+    def error_all_matches_not_closed(self):
+        print("!!! Les scores des matches ne sont pas tous enregistrés.")
 
 
 

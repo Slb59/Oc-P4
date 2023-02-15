@@ -108,16 +108,17 @@ class ChessManager:
         return None
 
     def close_round(self):
-        a_chessmanager_view = ChessManagerView(self)
+        chess_manager_view = ChessManagerView(self)
 
         # prompt id tournament
-        tournament_id = a_chessmanager_view.prompt_tournament_id()
-
+        tournament_id = chess_manager_view.prompt_tournament_id()
         tournament = self.get_tournament(tournament_id)
 
-        tournament_controller = TournamentController(tournament)
-
-        tournament_controller.close_round()
+        if tournament is None:
+            chess_manager_view.error_tournament_not_found()
+        else:
+            tournament_controller = TournamentController(tournament)
+            tournament_controller.close_round()
 
     def check_directories(self):
         """ create the directories output and data if not exists """
