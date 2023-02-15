@@ -5,5 +5,8 @@ from .player import Player
 from .tournament import Tournament
 from .tournament import MAX_NUMBER_OF_PLAYERS
 from .round import Round
+from .round import ROUND_CLOSED
+from .round import ROUND_STARTED
+
 
 

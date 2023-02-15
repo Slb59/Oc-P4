@@ -108,10 +108,6 @@ class ChessManager:
         return None
 
     def close_round(self):
-        """ ask the tournament id and the round id
-        if all the scores are recorded, close the round
-        close the tournament if all the rounds are closed
-        """
         a_chessmanager_view = ChessManagerView(self)
 
         # prompt id tournament
@@ -119,36 +115,9 @@ class ChessManager:
 
         tournament = self.get_tournament(tournament_id)
 
-        print(tournament)
-        # TODO : if tournament is None:
-        #     print('Ce tournoi n''existe pas !')
-
-        tournament_view = TournamentView(tournament)
-        tournament_view.display_tournament_data()
-
-        round_id = tournament_view.prompt_round_id()
         tournament_controller = TournamentController(tournament)
-        a_round = tournament_controller.get_round_id(round_id)
-        # TODO : if a_round is None:
-        #     print('Ce round n''existe pas !')
 
-        # test all matches closed
-        round_controller = RoundController(a_round)
-        # if check_all_matches_closed
-        if round_controller.check_all_score_record():
-            # TODO : input date_end and time_end
-            a_round.state = ROUND_CLOSED
-        else:
-            # TODO : error, all matches are not recorded
-            pass
-
-        if tournament_controller.check_all_rounds_closed():
-            tournament_controller.set_winner()
-            # display the winner
-            tournament_view.display_winner()
-        else:
-            # create a new round
-            tournament_controller.create_round()
+        tournament_controller.close_round()
 
     def check_directories(self):
         """ create the directories output and data if not exists """
@@ -158,6 +127,109 @@ class ChessManager:
         if not os.path.exists(self.data_directory):
             os.makedirs(self.data_directory)
             self.app_messages.display_data_directory_created()
+
+    def add_player(self):
+        """
+        - ask a chess_id
+        if chess_id not in database :
+            ask the data of the player
+            save database
+        else
+            prompt an error
+        """
+        chess_manager_view = ChessManagerView(self)
+        chess_id = chess_manager_view.prompt_player_id()
+        player = self.get_player(chess_id)
+
+        if player is None:
+            player_data = chess_manager_view.prompt_player_data()
+            player = Player(chess_id, player_data[0], player_data[1],
+                            player_data[2], player_data[3])
+            self.players.append(player)
+
+            # save players database
+            self.save_players()
+        else:
+            chess_manager_view.error_player_already_exists()
+
+    def modify_player(self):
+        """
+        - display all players
+        - ask the chess_id to modify
+        - ask the new data of the player
+        - save database
+        """
+        chess_manager_view = ChessManagerView(self)
+        # display the list of players
+        chess_manager_view.display_all_players()
+        # prompt the chess id
+        chess_id = chess_manager_view.prompt_player_id()
+        player = self.get_player(chess_id)
+        if player is None:
+            chess_manager_view.error_player_not_exist()
+        else:
+            player_data = chess_manager_view.prompt_player_data()
+            player.last_name = player_data[0]
+            player.first_name = player_data[1]
+            player.birthday = player_data[2]
+            player.chess_level = player_data[3]
+
+            # save players database
+            self.save_players()
+
+    def create_tournament(self):
+        """
+        - ask the tournament data
+        - display the players that can be selected
+        - ask the selection of the 8 (MAX_NUMBER_OF_PLAYER) players
+        - create the tournament object
+        - save database
+        :return: None
+        """
+        chess_manager_view = ChessManagerView(self)
+
+        # ask the data of the tournament
+        tournament_data = chess_manager_view.prompt_tournament_data()
+
+        # display the list of players
+        chess_manager_view.display_all_players()
+
+        # ask players selection
+        chess_manager_view.display_players_selection()
+        players = []
+        players_id = []
+        while len(players) < MAX_NUMBER_OF_PLAYERS:
+            chess_id = chess_manager_view.prompt_player_id()
+            player = self.get_player(chess_id)
+            if player is None:
+                chess_manager_view.error_player_not_exist()
+            elif player in players:
+                chess_manager_view.error_player_already_selected()
+            else:
+                players.append(player)
+                players_id.append(chess_id)
+            print(f'selection : {players_id}')
+
+        # save the tournament
+        tournament_id = len(self.tournaments) + 1
+        a_tournament = Tournament(tournament_id, tournament_data[0],
+                                  tournament_data[1], tournament_data[2],
+                                  tournament_data[3], tournament_data[4])
+        a_tournament.players = players
+        self.tournaments.append(a_tournament)
+        self.save_tournaments()
+
+    def start_tournament(self):
+        """
+        - display the tournaments not ended
+        - ask the id of the tournament to start
+        - create the first round of the tournament
+        """
+        chess_manager_view = ChessManagerView(self)
+        # display the tournaments not ended
+        chess_manager_view.display_all_tournaments()
+        # TODO:
+        pass
 
     def run(self):
         """ run the application """
@@ -183,40 +255,11 @@ class ChessManager:
 
             # add a player
             elif answer == chess_manager_view.main_menu_choices()[0]:
-
-                chess_id = chess_manager_view.prompt_player_id()
-                player = self.get_player(chess_id)
-
-                if player is None:
-                    player_data = chess_manager_view.prompt_player_data()
-                    player = Player(chess_id, player_data[0], player_data[1],
-                                    player_data[2], player_data[3])
-                    self.players.append(player)
-
-                    # save players database
-                    self.save_players()
-                else:
-                    chess_manager_view.error_player_already_exists()
+                self.add_player()
 
             # modify a player
             elif answer == chess_manager_view.main_menu_choices()[1]:
-
-                # display the list of players
-                chess_manager_view.display_all_players()
-                # prompt the chess id
-                chess_id = chess_manager_view.prompt_player_id()
-                player = self.get_player(chess_id)
-                if player is None:
-                    chess_manager_view.error_player_not_exist()
-                else:
-                    player_data = chess_manager_view.prompt_player_data()
-                    player.last_name = player_data[0]
-                    player.first_name = player_data[1]
-                    player.birthday = player_data[2]
-                    player.chess_level = player_data[3]
-
-                    # save players database
-                    self.save_players()
+                self.modify_player()
 
             # create a tournament
             elif answer == chess_manager_view.main_menu_choices()[2]:
@@ -224,45 +267,12 @@ class ChessManager:
                 if len(self.players) < MAX_NUMBER_OF_PLAYERS:
                     chess_manager_view.error_not_enough_players()
                     continue
-
-                # ask the data of the tournament
-                tournament_data = chess_manager_view.prompt_tournament_data()
-
-                # display the list of players
-                chess_manager_view.display_all_players()
-
-                # ask players selection
-                chess_manager_view.display_players_selection()
-                players = []
-                players_id = []
-                while len(players) < MAX_NUMBER_OF_PLAYERS:
-                    chess_id = chess_manager_view.prompt_player_id()
-                    player = self.get_player(chess_id)
-                    if player is None:
-                        chess_manager_view.error_player_not_exist()
-                    elif player in players:
-                        chess_manager_view.error_player_already_selected()
-                    else:
-                        players.append(player)
-                        players_id.append(chess_id)
-                    print(f'selection : {players_id}')
-
-                # save the tournament
-                tournament_id = len(self.tournaments) + 1
-                a_tournament = Tournament(tournament_id, tournament_data[0],
-                                          tournament_data[1], tournament_data[2],
-                                          tournament_data[3], tournament_data[4])
-                a_tournament.players = players
-                self.tournaments.append(a_tournament)
-                self.save_tournaments()
+                else:
+                    self.create_tournament()
 
             #  start a tournament
             elif answer == chess_manager_view.main_menu_choices()[3]:
-
-                # display the tournaments not ended
-                chess_manager_view.display_all_tournaments()
-                # TODO:
-                pass
+                self.start_tournament()
 
             # record the results
             elif answer == chess_manager_view.main_menu_choices()[4]:

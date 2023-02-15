@@ -1,9 +1,14 @@
 import random
 
 from chessmanager.models.round import ROUND_STARTED
+from chessmanager.models.round import ROUND_CLOSED
+
 from chessmanager.views import RoundView
 from chessmanager.views import TournamentView
+
 from chessmanager.models import Round
+
+from .round_controller import RoundController
 
 
 class TournamentController:
@@ -13,8 +18,8 @@ class TournamentController:
     def set_winner(self):
         winner = self.tournament.players[0]
         for player in self.tournament.players:
-            if player.current_score > winner:
-                winner = player.current_score
+            if player.current_score > winner.current_score:
+                winner = player
         self.tournament.winner = winner
 
     def get_round_id(self, round_id):
@@ -53,6 +58,42 @@ class TournamentController:
         # display tournaments data
         a_tournament_view = TournamentView(self.tournament)
         a_tournament_view.display_tournament_data()
+
+    def close_round(self):
+        """ ask the tournament id and the round id
+        if all the scores are recorded, close the round
+        close the tournament if all the rounds are closed
+        """
+
+        # TODO : if tournament is None:
+        #     print('Ce tournoi n''existe pas !')
+
+        tournament_view = TournamentView(self.tournament)
+        tournament_view.display_tournament_data()
+
+        round_id = tournament_view.prompt_round_id()
+        tournament_controller = TournamentController(self.tournament)
+        a_round = tournament_controller.get_round_id(round_id)
+        # TODO : if a_round is None:
+        #     print('Ce round n''existe pas !')
+
+        # test all matches closed
+        round_controller = RoundController(a_round)
+        # if check_all_matches_closed
+        if round_controller.check_all_score_record():
+            # TODO : input date_end and time_end
+            a_round.state = ROUND_CLOSED
+        else:
+            # TODO : error, all matches are not recorded
+            pass
+
+        if tournament_controller.check_all_rounds_closed():
+            tournament_controller.set_winner()
+            # display the winner
+            tournament_view.display_winner()
+        else:
+            # create a new round
+            tournament_controller.create_round()
 
     def shuffle_players(self):
         random.shuffle(self.tournament.players)

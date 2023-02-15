@@ -5,7 +5,10 @@ from unittest import TestCase
 from chessmanager.controllers import Parameters
 from chessmanager.controllers import ChessManager
 from chessmanager.controllers import TournamentController
+
 from chessmanager.models import Round
+from chessmanager.models import ROUND_CLOSED
+
 from tests import TestInit
 
 
@@ -79,6 +82,7 @@ class TestChessManager(TestCase, TestInit):
             True)
 
     def test_close_round(self):
+        # GIVEN
         parameters = Parameters()
         a_chess_manager = ChessManager(parameters)
 
@@ -95,6 +99,8 @@ class TestChessManager(TestCase, TestInit):
         a_tournament.rounds.append(a_round)
         a_chess_manager.tournaments.append(a_tournament)
 
-        # a_chess_manager.close_round()
+        # WHEN
+        a_chess_manager.close_round()
 
-        self.fail()
+        # THEN
+        self.assertEqual(a_round.state, ROUND_CLOSED)
