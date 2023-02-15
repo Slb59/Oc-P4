@@ -1,19 +1,45 @@
+import datetime
+import questionary
+
+
 class RoundView:
     def __init__(self, a_round=None):
         self.round = a_round
         # (new_id, name, date_begin, time_begin, date_end, time_end)
 
-    def prompt_date_begin(self):
-        pass
+    def check_date_format(self, a_date) -> bool:
+        try:
+            res = bool(datetime.datetime.strptime(a_date, '%d/%m/%Y'))
+        except ValueError:
+            res = False
+        return res
 
-    def prompt_time_begin(self):
-        pass
+    def check_time_format(self, a_time) -> bool:
+        try:
+            res = bool(datetime.datetime.strptime(a_time, '%H:%M'))
+        except ValueError:
+            res = False
+        return res
 
-    def prompt_date_end(self):
-        pass
+    def prompt_begin(self) -> tuple:
+        a_date = questionary.text('Date de début (DD/MM/YYYY):').ask()
+        while not self.check_date_format(a_date):
+            print("Format de date incorrect")
+            a_date = questionary.text('Date de début (DD/MM/YYYY):').ask()
+        a_time = questionary.text('Heure de début (HH:MM):').ask()
+        while not self.check_time_format(a_time):
+            print("Format de l'heure incorrect")
+            a_time = questionary.text('Heure de début (HH:MM):').ask()
 
-    def prompt_time_end(self):
-        pass
+    def prompt_end(self):
+        a_date = questionary.text('Date de fin (DD/MM/YYYY):').ask()
+        while not self.check_date_format(a_date):
+            print("Format de date incorrect")
+            a_date = questionary.text('Date de fin (DD/MM/YYYY):').ask()
+        a_time = questionary.text('Heure de fin (HH:MM):').ask()
+        while not self.check_time_format(a_time):
+            print("Format de l'heure incorrect")
+            a_time = questionary.text('Heure de fin (HH:MM):').ask()
 
     def display_round_data(self):
         pos_to_align = 50
