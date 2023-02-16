@@ -22,6 +22,16 @@ class ChessManagerView:
                 "Quitter le programme"
             ]
 
+    def report_menu_choices(self) -> list:
+        return [
+                "Liste des joueurs par ordre alphabétique",
+                "Liste de tous les tournois",
+                "Nom et dates d'un tournoi donné",
+                "Liste des joeurs d'un tournoi par ordre alphabétique",
+                "liste de tous les tours du tournoi et de tous les matchs du tour",
+                "revenir au menu principal"
+            ]
+
     def check_date_format(self, a_date) -> bool:
         try:
             res = bool(datetime.datetime.strptime(a_date, '%d/%m/%Y'))
@@ -83,6 +93,15 @@ class ChessManagerView:
         answer = questionary.select(
             "Que souhaitez-vous faire ?",
             choices=self.main_menu_choices()
+        ).ask()
+        return answer
+
+    def display_reports_menu(self) -> str:
+        print('')
+        print(50 * '-')
+        answer = questionary.select(
+            "Que souhaitez-vous faire ?",
+            choices=self.report_menu_choices()
         ).ask()
         return answer
 

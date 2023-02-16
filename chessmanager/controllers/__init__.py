@@ -6,3 +6,4 @@ from .argparser import ArgParser
 from .chessmanager import ChessManager
 from .tournament_controller import TournamentController
 from .round_controller import RoundController
+from .reports import ChessManagerReports

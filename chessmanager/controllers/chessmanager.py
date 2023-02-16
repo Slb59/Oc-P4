@@ -13,7 +13,7 @@ from chessmanager.views import DatabaseView
 
 from .tournament_controller import TournamentController
 from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
-
+from .reports import ChessManagerReports
 
 class ChessManager:
     """ Main controller of the application """
@@ -288,6 +288,31 @@ class ChessManager:
             tournament_view.display_tournament_data()
             self.save_tournaments()
 
+    def generate_reports(self):
+        chess_manager_view = ChessManagerView(self)
+        chess_manager_reports = ChessManagerReports(self.players, self.tournaments)
+        answer = chess_manager_view.display_reports_menu()
+        running = True
+
+        while running:
+            if answer == chess_manager_view.main_menu_choices()[6]:
+                running = False
+            # List of players in alphabetic order
+            elif answer == chess_manager_view.main_menu_choices()[0]:
+                chess_manager_reports.all_players_in_alphabetic_order()
+            # List of all the tournaments
+            elif answer == chess_manager_view.main_menu_choices()[1]:
+                chess_manager_reports.all_tournaments()
+            # Name and date of a tournament
+            elif answer == chess_manager_view.main_menu_choices()[2]:
+                chess_manager_reports.tournament_data()
+            # List of players of a tournament in alphabetic order
+            elif answer == chess_manager_view.main_menu_choices()[3]:
+                chess_manager_reports.tournament_players()
+            # List all the rounds of a tournament and all the matches
+            elif answer == chess_manager_view.main_menu_choices()[4]:
+                chess_manager_reports.tournaments_details()
+
     def run(self):
         """ run the application """
 
@@ -304,7 +329,6 @@ class ChessManager:
 
         while running:
             answer = chess_manager_view.display_main_menu()
-            print(f'- {answer} -')
 
             # quit
             if answer == chess_manager_view.main_menu_choices()[7]:
@@ -341,6 +365,5 @@ class ChessManager:
 
             # generate reports
             elif answer == chess_manager_view.main_menu_choices()[5]:
-                # TODO:
-                pass
+                self.generate_reports()
 
