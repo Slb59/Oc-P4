@@ -290,27 +290,28 @@ class ChessManager:
 
     def generate_reports(self):
         chess_manager_view = ChessManagerView(self)
-        chess_manager_reports = ChessManagerReports(self.players, self.tournaments)
-        answer = chess_manager_view.display_reports_menu()
+        chess_manager_reports = ChessManagerReports(self.players, self.tournaments, self.output_directory)
         running = True
 
         while running:
-            if answer == chess_manager_view.main_menu_choices()[6]:
+            answer = chess_manager_view.display_reports_menu()
+            if answer == chess_manager_view.report_menu_choices()[5]:
+                print('ici')
                 running = False
             # List of players in alphabetic order
-            elif answer == chess_manager_view.main_menu_choices()[0]:
+            elif answer == chess_manager_view.report_menu_choices()[0]:
                 chess_manager_reports.all_players_in_alphabetic_order()
             # List of all the tournaments
-            elif answer == chess_manager_view.main_menu_choices()[1]:
+            elif answer == chess_manager_view.report_menu_choices()[1]:
                 chess_manager_reports.all_tournaments()
             # Name and date of a tournament
-            elif answer == chess_manager_view.main_menu_choices()[2]:
+            elif answer == chess_manager_view.report_menu_choices()[2]:
                 chess_manager_reports.tournament_data()
             # List of players of a tournament in alphabetic order
-            elif answer == chess_manager_view.main_menu_choices()[3]:
+            elif answer == chess_manager_view.report_menu_choices()[3]:
                 chess_manager_reports.tournament_players()
             # List all the rounds of a tournament and all the matches
-            elif answer == chess_manager_view.main_menu_choices()[4]:
+            elif answer == chess_manager_view.report_menu_choices()[4]:
                 chess_manager_reports.tournaments_details()
 
     def run(self):
@@ -364,6 +365,6 @@ class ChessManager:
                 self.close_round()
 
             # generate reports
-            elif answer == chess_manager_view.main_menu_choices()[5]:
+            elif answer == chess_manager_view.main_menu_choices()[6]:
                 self.generate_reports()
 
