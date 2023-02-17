@@ -18,8 +18,7 @@ class Player:
         else:
             return False
 
-    def sort_alpha_order(self):
-        return self.first_name.lower(), self.last_name.lower()
+
 
 
 
