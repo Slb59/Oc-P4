@@ -1,0 +1,31 @@
+body {
+        font-family: 'Raleway', sans-serif;
+        font-size: 1em;
+        background: rgb(242,151,113);
+        background: linear-gradient(150deg, rgba(242,151,113,1) 0%, rgba(241,226,94,1) 30%, rgba(232,242,31,1) 100%);
+        background-size: cover;
+        background-repeat: no-repeat;
+        opacity : 0.6
+        margin: 0;
+}
+h1 {color: blue; text-align: center;}
+h3 {
+        font-size: 1.3em;
+        color: black;
+}
+footer {
+        text-align: center;
+}
+.conteneur-players {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 50px;
+    gap: 10px;
+}
+img {
+    width : 2.5em;
+    height: auto;
+}
+.box {
+    background: rgb(241,226,94);
+}
