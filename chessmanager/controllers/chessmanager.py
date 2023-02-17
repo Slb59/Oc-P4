@@ -288,15 +288,35 @@ class ChessManager:
             tournament_view.display_tournament_data()
             self.save_tournaments()
 
-    def generate_reports(self):
+    def ask_tournament_id(self):
+        """
+        ask a tournament id
+        :return:  a_tournament, None if not found
+        """
+
         chess_manager_view = ChessManagerView(self)
-        chess_manager_reports = ChessManagerReports(self.players, self.tournaments, self.output_directory)
+        chess_manager_view.display_all_tournaments()
+        # prompt id tournament
+        tournament_id = chess_manager_view.prompt_tournament_id()
+        tournament = self.get_tournament(tournament_id)
+        if tournament is None:
+            chess_manager_view.error_tournament_not_found()
+        else:
+            return tournament
+
+    def generate_reports(self):
+        """
+        Display the reports menu
+        then launch the html page corresponding
+        :return:
+        """
+        chess_manager_view = ChessManagerView(self)
+        chess_manager_reports = ChessManagerReports(self)
         running = True
 
         while running:
             answer = chess_manager_view.display_reports_menu()
             if answer == chess_manager_view.report_menu_choices()[5]:
-                print('ici')
                 running = False
             # List of players in alphabetic order
             elif answer == chess_manager_view.report_menu_choices()[0]:
@@ -306,10 +326,12 @@ class ChessManager:
                 chess_manager_reports.all_tournaments()
             # Name and date of a tournament
             elif answer == chess_manager_view.report_menu_choices()[2]:
-                chess_manager_reports.tournament_data()
+                tournament = self.ask_tournament_id()
+                chess_manager_reports.generate_tournament_data(tournament)
             # List of players of a tournament in alphabetic order
             elif answer == chess_manager_view.report_menu_choices()[3]:
-                chess_manager_reports.tournament_players()
+                tournament = self.ask_tournament_id()
+                chess_manager_reports.generate_tournament_players(tournament)
             # List all the rounds of a tournament and all the matches
             elif answer == chess_manager_view.report_menu_choices()[4]:
                 chess_manager_reports.tournaments_details()

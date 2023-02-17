@@ -40,7 +40,7 @@ class TestInit:
         return list_of_4_players
 
     @staticmethod
-    def create_a_tournament(self):
+    def create_a_tournament(self) -> Tournament:
         a_tournament = Tournament(
             1,
             'Tournoi des candidats 2020',
@@ -50,3 +50,18 @@ class TestInit:
             '03/04/2020'
         )
         return a_tournament
+
+    def create_6_tournaments(self) -> list:
+        tournaments = []
+        for i in range(7):
+            a_tournament = Tournament(
+                i,
+                'Tournoi numero ' + str(i),
+                'Description du tournoi numero ' + str(i),
+                'Localisation du tournoi numero ' + str(i),
+                '01/01/2023',
+                '31/12/2023'
+            )
+            tournaments.append(a_tournament)
+        return tournaments
+

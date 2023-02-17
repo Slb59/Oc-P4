@@ -80,8 +80,7 @@ class TestChessManager(TestCase, TestInit):
 
     def test_close_round(self):
         # GIVEN
-        parameters = Parameters()
-        a_chess_manager = ChessManager(parameters)
+        a_chess_manager = ChessManager(Parameters())
 
         a_tournament = self.create_a_tournament(self)
         a_tournament.players = self.create_8_players(self)
