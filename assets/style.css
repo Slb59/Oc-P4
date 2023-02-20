@@ -35,6 +35,12 @@ footer {
     gap: 10px;
     margin: 80px 150px 100px 150px;
 }
+.conteneur-match{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 50px;
+    gap: 10px;
+}
 img {
     width : 2.5em;
     height: auto;
