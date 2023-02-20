@@ -5,9 +5,6 @@ import datetime
 
 from chessmanager.models import STATES
 
-from chessmanager.views import ChessManagerView
-from chessmanager.views import TournamentView
-
 
 class ChessManagerReports:
     """
@@ -71,6 +68,29 @@ class ChessManagerReports:
     def sort_alpha_order(self, player):
         return player.first_name.lower(), player.last_name.lower()
 
+    def html_body_for_list_of_players(self, players) -> str:
+        body = """
+                    <main>
+                    <h3>
+                    <div class="conteneur-players">
+                    <div class="box">Identifiant</div>
+                    <div class="box">Nom</div>
+                    <div class="box">Prénom</div>
+                    <div class="box">Date de naissance</div>
+                    <div class="box">Niveau ELO</div>
+                    """
+        for player in sorted(players, key=self.sort_alpha_order):
+            body += """ <div class="box"> """ + player.chess_id + """ </div> """
+            body += """ <div class="box"> """ + player.first_name + """ </div> """
+            body += """ <div class="box"> """ + player.last_name + """ </div> """
+            body += """ <div class="box"> """ + player.birthday + """ </div> """
+            body += """ <div class="box"> """ + str(player.chess_level) + """ </div> """
+
+        body += """</div></h3>>            
+                    </main>
+                    """
+        return body
+
     def all_players_in_alphabetic_order(self):
         """ List the players in alphabetic order
         :return:
@@ -79,27 +99,7 @@ class ChessManagerReports:
         with open(self.filename, 'w', encoding='utf8') as f:
             f.write(self.html_header())
             f.write(self.report_header('Liste des joueurs inscrits dans le club'))
-            body = """
-            <main>
-            <h3>
-            <div class="conteneur-players">
-            <div class="box">Identifiant</div>
-            <div class="box">Nom</div>
-            <div class="box">Prénom</div>
-            <div class="box">Date de naissance</div>
-            <div class="box">Niveau ELO</div>
-            """
-            for player in sorted(self.chess_manager.players, key=self.sort_alpha_order):
-                body += """ <div class="box"> """ + player.chess_id + """ </div> """
-                body += """ <div class="box"> """ + player.first_name + """ </div> """
-                body += """ <div class="box"> """ + player.last_name + """ </div> """
-                body += """ <div class="box"> """ + player.birthday + """ </div> """
-                body += """ <div class="box"> """ + str(player.chess_level) + """ </div> """
-
-            body += """</div></h3>>            
-            </main>
-            """
-            f.write(body)
+            f.write(self.html_body_for_list_of_players(self.chess_manager.players))
             f.write(self.report_footer())
             f.write(self.html_footer())
         self.open_in_browser()
@@ -185,13 +185,45 @@ class ChessManagerReports:
             f.write(self.html_header())
             f.write(self.report_header(
                 'Liste des joueurs du tournoi numéro ' + str(tournament.tournament_id)))
+            f.write(self.html_body_for_list_of_players(tournament.players))
             f.write(self.report_footer())
             f.write(self.html_footer())
         self.open_in_browser()
 
-    def tournaments_details(self):
+
+    def tournaments_details(self, tournament):
         """
         Give the details of a tournament : all the rounds
         and all the matches of each round
         :return:
         """
+
+        self.style_css()
+        with open(self.filename, 'w', encoding='utf8') as f:
+            f.write(self.html_header())
+            f.write(self.report_header(
+                'Liste des tours du tournoi numéro ' + str(tournament.tournament_id)))
+            body = """<main><h3>"""
+            for a_round in tournament.rounds:
+                body += """<div class="conteneur-tournament-data">"""
+                body += """< div class ="box" > Round:<""" + a_round.name + """</div>"""
+                body += ' Du ' + a_round.date_begin + ' au ' + a_round.date_end
+                body += """</div>"""
+                body += """<div class="conteneur-match">"""
+                body += """<div class="box">Numéro</div>"""
+                body += """<div class="box">Joueur blanc</div>"""
+                body += """<div class="box">Score blanc</div>"""
+                body += """<div class="box">Joueur noir</div>"""
+                body += """<div class="box">Score noir</div>"""
+                body += """</div>"""
+                for index, match in enumerate(a_round.matches):
+                    body += """ <div class="box"> """ + str(index) + """ </div> """
+                    body += """ <div class="box"> """ + match[0][0] + """ </div> """
+                    body += """ <div class="box"> """ + match[0][1] + """ </div> """
+                    body += """ <div class="box"> """ + match[1][0] + """ </div> """
+                    body += """ <div class="box"> """ + match[1][1] + """ </div> """
+            body += """</div></h3>></main>"""
+            f.write(body)
+            f.write(self.report_footer())
+            f.write(self.html_footer())
+        self.open_in_browser()

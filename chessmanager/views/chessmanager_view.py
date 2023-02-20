@@ -27,7 +27,7 @@ class ChessManagerView:
                 "Liste des joueurs par ordre alphabétique",
                 "Liste de tous les tournois",
                 "Nom et dates d'un tournoi donné",
-                "Liste des joeurs d'un tournoi par ordre alphabétique",
+                "Liste des joueurs d'un tournoi par ordre alphabétique",
                 "liste de tous les tours du tournoi et de tous les matchs du tour",
                 "revenir au menu principal"
             ]

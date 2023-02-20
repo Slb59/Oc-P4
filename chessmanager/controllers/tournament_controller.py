@@ -139,9 +139,6 @@ class TournamentController:
         else:
             tournament_view.error_all_matches_not_closed()
 
-
-
-
     def shuffle_players(self):
         """ shuffle the players """
         random.shuffle(self.tournament.players)

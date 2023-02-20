@@ -334,7 +334,8 @@ class ChessManager:
                 chess_manager_reports.generate_tournament_players(tournament)
             # List all the rounds of a tournament and all the matches
             elif answer == chess_manager_view.report_menu_choices()[4]:
-                chess_manager_reports.tournaments_details()
+                tournament = self.ask_tournament_id()
+                chess_manager_reports.tournaments_details(tournament)
 
     def run(self):
         """ run the application """
