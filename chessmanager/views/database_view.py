@@ -1,10 +1,14 @@
 class DatabaseView:
 
-    def __init__(self, database_loader):
-        self.database_loader = database_loader
+    def __init__(self, filename):
+        self.filename = filename
 
     def display_database_not_found(self):
-        print(f"La base de données {self.database_loader.filename} n''a pas été trouvée")
+        text = f"!!! Attention la base de données {self.filename} n''a pas été trouvée"
+        print(text)
 
     def display_database_loaded(self):
-        print(f"La base de données {self.database_loader.filename} est chargée")
+        print(f"La base de données {self.filename} est chargée")
+
+    def display_database_save(self):
+        print(f"Les données de {self.filename} ont été sauvegardées")

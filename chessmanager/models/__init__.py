@@ -3,6 +3,11 @@ __author__ = "Sylvie Bricout"
 
 from .player import Player
 from .tournament import Tournament
+from .tournament import MAX_NUMBER_OF_PLAYERS
+from .tournament import STATES
 from .round import Round
-from .match import Match
-from .club import Club
+from .round import ROUND_CLOSED
+from .round import ROUND_STARTED
+
+
+
