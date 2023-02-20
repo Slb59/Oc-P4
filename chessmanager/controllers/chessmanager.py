@@ -2,6 +2,8 @@ import os
 import json
 import chessmanager
 
+from logs import LOGGER
+
 from chessmanager.models import Player
 from chessmanager.models import Tournament
 from chessmanager.models import MAX_NUMBER_OF_PLAYERS
@@ -53,9 +55,9 @@ class ChessManager:
         except FileNotFoundError:
             database_view.display_database_not_found()
 
-
     def save_tournaments(self):
         filename = self.data_directory + '/tournaments.json'
+        LOGGER.debug("Save tournament in " + filename)
         with open(filename, 'w', encoding='utf8') as json_file:
             json.dump(
                 [o.to_dict() for o in self.tournaments],

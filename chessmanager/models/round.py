@@ -1,3 +1,5 @@
+from logs import LOGGER
+
 ROUND_STARTED = 1
 ROUND_CLOSED = 2
 ROUND_STATES = [ROUND_STARTED, ROUND_CLOSED]
@@ -8,7 +10,7 @@ class Round:
                  date_begin, time_begin,
                  date_end='', time_end='', state=ROUND_STARTED):
         self.round_id = round_id
-        self.name = name,
+        self.name = name
         self.date_begin = date_begin
         self.time_begin = time_begin
         self.date_end = date_end
@@ -21,6 +23,7 @@ class Round:
         return f'{self.round_id} : {self.name}'
 
     def to_dict(self) -> dict:
+        LOGGER.debug(" round to dict : " + self.name)
         list_of_matches = []
         for match in self.matches:
             list_of_matches.append(
