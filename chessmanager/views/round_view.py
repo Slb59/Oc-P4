@@ -54,10 +54,12 @@ class RoundView:
         return int(result)
 
     def prompt_a_match_result(self) -> tuple:
+
         index = questionary.text("Numéro du match (1 à 4)").ask()
         while not int(index) in [1, 2, 3, 4]:
             print('Saisir une valeur entre 1 et 4')
             index = questionary.text("Numéro du match (1 à 4)").ask()
+        print('Résultats:  0 - Egalité, 1: Le premier joueur gagne, 2: Le deuxième joueur gagne')
         result = questionary.text(f'Résultat du match {index}:').ask()
         while not int(result) in [0, 1, 2]:
             print('Veuillez saisir 0, 1 ou 2 selon le résultat du match')

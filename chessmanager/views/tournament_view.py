@@ -14,6 +14,17 @@ class TournamentView:
     def display_winner(self):
         print('Le gagnant du tournoi est: ' + str(self.tournament.winner))
 
+    def display_tournament_title(self):
+        text = f'TOURNOI: {str(self.tournament)}'
+        if self.tournament.state == TOURNAMENT_CLOSED:
+            text += ' - Terminé'
+            self.display_winner()
+        elif self.tournament.state == TOURNAMENT_STARTED:
+            text += ' - En cours de jeu'
+        else:
+            text += ' - Non commencé'
+        print(text)
+
     def display_tournament_resume(self):
         text = f'****  TOURNOI: {str(self.tournament)} ****'
         print(len(text) * '*')

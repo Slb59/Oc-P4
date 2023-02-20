@@ -355,6 +355,7 @@ class ChessManager:
 
         while running:
             answer = chess_manager_view.display_main_menu()
+            LOGGER.debug("main menu choice " + answer)
 
             # quit
             if answer == chess_manager_view.main_menu_choices()[7]:
@@ -392,4 +393,5 @@ class ChessManager:
             # generate reports
             elif answer == chess_manager_view.main_menu_choices()[6]:
                 self.generate_reports()
+        LOGGER.debug("Quit program")
 

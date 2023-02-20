@@ -203,26 +203,26 @@ class ChessManagerReports:
             f.write(self.html_header())
             f.write(self.report_header(
                 'Liste des tours du tournoi numéro ' + str(tournament.tournament_id)))
-            body = """<main><h3>"""
+            body = """<main>"""
             for a_round in tournament.rounds:
-                body += """<div class="conteneur-tournament-data">"""
-                body += """< div class ="box" > Round:<""" + a_round.name + """</div>"""
-                body += ' Du ' + a_round.date_begin + ' au ' + a_round.date_end
-                body += """</div>"""
+                body += """<h2>"""
+                body += a_round.name
+                body += '   Du ' + a_round.date_begin + ' au ' + a_round.date_end + """</h2>"""
+                body += """</div><h3>"""
                 body += """<div class="conteneur-match">"""
                 body += """<div class="box">Numéro</div>"""
-                body += """<div class="box">Joueur blanc</div>"""
-                body += """<div class="box">Score blanc</div>"""
-                body += """<div class="box">Joueur noir</div>"""
-                body += """<div class="box">Score noir</div>"""
-                body += """</div>"""
+                body += """<div class="box">Joueur 1</div>"""
+                body += """<div class="box">Score joueur 1</div>"""
+                body += """<div class="box">Joueur 2</div>"""
+                body += """<div class="box">Score joueur 2</div>"""
                 for index, match in enumerate(a_round.matches):
-                    body += """ <div class="box"> """ + str(index) + """ </div> """
-                    body += """ <div class="box"> """ + match[0][0] + """ </div> """
-                    body += """ <div class="box"> """ + match[0][1] + """ </div> """
-                    body += """ <div class="box"> """ + match[1][0] + """ </div> """
-                    body += """ <div class="box"> """ + match[1][1] + """ </div> """
-            body += """</div></h3>></main>"""
+                    body += """ <div class="box"> """ + str(index + 1) + """ </div> """
+                    body += """ <div class="box"> """ + str(match[0][0]) + """ </div> """
+                    body += """ <div class="box"> """ + str(match[0][1]) + """ </div> """
+                    body += """ <div class="box"> """ + str(match[1][0]) + """ </div> """
+                    body += """ <div class="box"> """ + str(match[1][1]) + """ </div> """
+                body += """</div></h3>"""
+            body += """</main>"""
             f.write(body)
             f.write(self.report_footer())
             f.write(self.html_footer())
