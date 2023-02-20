@@ -17,6 +17,7 @@ from .tournament_controller import TournamentController
 from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
 from .reports import ChessManagerReports
 
+
 class ChessManager:
     """ Main controller of the application """
     def __init__(self, parameters):
