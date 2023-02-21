@@ -83,7 +83,8 @@ class ChessManagerReports:
             body += """ <div class="box"> """ + player.chess_id + """ </div> """
             body += """ <div class="box"> """ + player.first_name + """ </div> """
             body += """ <div class="box"> """ + player.last_name + """ </div> """
-            body += """ <div class="box"> """ + player.birthday + """ </div> """
+            body += """ <div class="box"> """
+            body += datetime.datetime.strftime(player.birthday,'%d/%m/%Y') + """ </div> """
             body += """ <div class="box"> """ + str(player.chess_level) + """ </div> """
 
         body += """</div></h3>>            

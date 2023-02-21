@@ -2,6 +2,8 @@ import os
 import json
 import chessmanager
 
+from datetime import datetime
+
 from logs import LOGGER
 
 from chessmanager.models import Player
@@ -35,19 +37,19 @@ class ChessManager:
     def save_players(self):
         """ save the list of players in players.json file """
         filename = self.data_directory + '/players.json'
-        with open(filename, 'w', encoding='utf8') as json_file:
+        with open(filename, 'w', encoding="utf-8") as json_file:
             json.dump(
-                [o.__dict__ for o in self.players],
+                [o.to_dict() for o in self.players],
                 json_file,
                 indent=4,
                 separators=(',', ': ')
-            )
+        )
 
     def load_players(self):
         filename = self.data_directory + '/players.json'
         database_view = DatabaseView(filename)
         try:
-            with open(filename, encoding='utf8') as f:
+            with open(filename, encoding="utf-8") as f:
                 data = json.load(f)
             for elem in data:
                 player = Player(**elem)
@@ -163,7 +165,7 @@ class ChessManager:
 
         if player is None:
             player_data = chess_manager_view.prompt_player_data()
-            player = Player(chess_id, player_data[0], player_data[1],
+            player = Player(chess_id, player_data[1], player_data[0],
                             player_data[2], player_data[3])
             self.players.append(player)
 
@@ -189,9 +191,9 @@ class ChessManager:
             chess_manager_view.error_player_not_exist()
         else:
             player_data = chess_manager_view.prompt_player_data()
-            player.last_name = player_data[0]
-            player.first_name = player_data[1]
-            player.birthday = player_data[2]
+            player.last_name = player_data[1]
+            player.first_name = player_data[0]
+            player.birthday = datetime.strptime(player_data[2], '%d/%m/%Y')
             player.chess_level = player_data[3]
 
             # save players database
