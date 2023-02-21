@@ -1,5 +1,7 @@
 import random
 
+from datetime import datetime
+
 from chessmanager.models.round import ROUND_STARTED
 from chessmanager.models.round import ROUND_CLOSED
 
@@ -122,8 +124,8 @@ class TournamentController:
             round_view.error_round_closed()
         elif round_controller.check_all_score_record():
             round_data = round_view.prompt_end()
-            a_round.date_end = round_data[0]
-            a_round.time_end = round_data[1]
+            a_round.date_end = datetime.strptime(round_data[0], '%d/%m/%Y')
+            a_round.time_end = datetime.strptime(round_data[1], '%H:%M')
             a_round.state = ROUND_CLOSED
             self.update_players_score(a_round)
 

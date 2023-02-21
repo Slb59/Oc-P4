@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from logs import LOGGER
 
 ROUND_STARTED = 1
@@ -11,10 +13,10 @@ class Round:
                  date_end='', time_end='', state=ROUND_STARTED):
         self.round_id = round_id
         self.name = name
-        self.date_begin = date_begin
-        self.time_begin = time_begin
-        self.date_end = date_end
-        self.time_end = time_end
+        self.date_begin = datetime.strptime(date_begin, '%d/%m/%Y')
+        self.time_begin = datetime.strptime(time_begin, '%H:%M')
+        self.date_end = datetime.strptime(date_end, '%d/%m/%Y') if date_end else ''
+        self.time_end = datetime.strptime(time_end, '%H:%M') if time_end else ''
 
         self.matches = []
         self.state = state
@@ -34,10 +36,10 @@ class Round:
         a_dict = {
             "round_id": self.round_id,
             "name": self.name,
-            "date_begin": self.date_begin,
-            "time_begin": self.time_begin,
-            "date_end": self.date_end,
-            "time_end": self.time_end,
+            "date_begin": datetime.strftime(self.date_begin, '%d/%m/%Y'),
+            "time_begin": datetime.strftime(self.time_begin, '%H:%M'),
+            "date_end": datetime.strftime(self.date_end, '%d/%m/%Y') if self.date_end else '',
+            "time_end": datetime.strftime(self.time_end, '%H:%M') if self.time_end else '',
             "state": self.state,
             "matches": list_of_matches
         }

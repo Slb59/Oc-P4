@@ -1,7 +1,7 @@
 import webbrowser
 import os
 import shutil
-import datetime
+from datetime import datetime
 
 from chessmanager.models import STATES
 
@@ -49,7 +49,7 @@ class ChessManagerReports:
         """
 
     def report_footer(self) -> str:
-        now = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
+        now = datetime.now().strftime("%d/%m/%Y %H:%M")
         img = """<img src="
         """ + os.getcwd() + '/assets/logo.png' + """        
         " /> """
@@ -84,7 +84,7 @@ class ChessManagerReports:
             body += """ <div class="box"> """ + player.first_name + """ </div> """
             body += """ <div class="box"> """ + player.last_name + """ </div> """
             body += """ <div class="box"> """
-            body += datetime.datetime.strftime(player.birthday,'%d/%m/%Y') + """ </div> """
+            body += datetime.strftime(player.birthday,'%d/%m/%Y') + """ </div> """
             body += """ <div class="box"> """ + str(player.chess_level) + """ </div> """
 
         body += """</div></h3>>            
@@ -208,7 +208,13 @@ class ChessManagerReports:
             for a_round in tournament.rounds:
                 body += """<h2>"""
                 body += a_round.name
-                body += '   Du ' + a_round.date_begin + ' au ' + a_round.date_end + """</h2>"""
+                body += '   Du ' + datetime.strftime(a_round.date_begin, '%d/%m/%Y')
+                body += ' à ' + datetime.strftime(a_round.time_begin, '%H:%M')
+                body += ' au '
+                if a_round.date_end:
+                    body += datetime.strftime(a_round.date_end, '%d/%m/%Y')
+                    body += ' à ' + datetime.strftime(a_round.time_end, '%H:%M')
+                body += """</h2>"""
                 body += """</div><h3>"""
                 body += """<div class="conteneur-match">"""
                 body += """<div class="box">Numéro</div>"""

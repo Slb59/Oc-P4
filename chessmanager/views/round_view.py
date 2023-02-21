@@ -1,6 +1,6 @@
-import datetime
 import questionary
 
+from datetime import datetime
 from chessmanager.models import ROUND_CLOSED
 from .check import check_date_format, check_time_format
 
@@ -75,8 +75,14 @@ class RoundView:
     def display_round_data(self):
         pos_to_align = 50
         len_for_players = 25
-        print(f'{self.round.name} du {self.round.date_begin} {self.round.time_begin}'
-              f' au {self.round.date_end} {self.round.time_end}')
+        text = f'{self.round.name} du '
+        text += f"{datetime.strftime(self.round.date_begin, '%d/%m/%Y')}"
+        text += f" {datetime.strftime(self.round.time_begin, '%H:%M')}"
+        text += f" au "
+        if self.round.date_end:
+            text += f"{datetime.strftime(self.round.date_end, '%d/%m/%Y')}"
+            text += f" {datetime.strftime(self.round.time_end, '%H:%M')}"
+        print(text)
         if self.round.state == ROUND_CLOSED:
             print('ROUND TERMINE')
         for i, match in enumerate(self.round.matches):
