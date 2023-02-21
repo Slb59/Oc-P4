@@ -7,7 +7,7 @@ from .tournament_view import TournamentView
 
 class ChessManagerView:
     """
-    Manage menu and chess_manager views
+    Manage menu and chess_manager prompt, display and errors
     """
     def __init__(self, chess_manager):
         self.chess_manager = chess_manager

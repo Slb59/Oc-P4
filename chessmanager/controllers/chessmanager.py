@@ -8,6 +8,7 @@ from logs import LOGGER
 
 from chessmanager.models import Player
 from chessmanager.models import Tournament
+from chessmanager.models import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
 from chessmanager.models import MAX_NUMBER_OF_PLAYERS
 from chessmanager.models import Round
 
@@ -21,7 +22,6 @@ from chessmanager.views import prompt_player_id
 from chessmanager.views import prompt_player_data
 
 from .tournament_controller import TournamentController
-from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
 from .reports import ChessManagerReports
 
 

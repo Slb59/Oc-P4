@@ -6,10 +6,14 @@ from .check import check_date_format
 
 
 def prompt_player_id(self) -> str:
-    chess_id = questionary.text("Identifiant national d'échecs:").ask()
-    while not re.match(r"[A-Z][A-Z]\d\d\d\d\d", chess_id):
-        print("L'identifiant doit contenir 2 lettres et 5 chiffres")
-        chess_id = questionary.text("Identifiant national d'échecs:").ask()
+    chess_id = questionary.text(
+        "Identifiant national d'échecs:",
+        validate=lambda text: True if re.match(r"[A-Z][A-Z]\d\d\d\d\d", text)
+        else "L'identifiant doit contenir 2 lettres et 5 chiffres"
+    ).ask()
+    # while not re.match(r"[A-Z][A-Z]\d\d\d\d\d", chess_id):
+    #     print("L'identifiant doit contenir 2 lettres et 5 chiffres")
+    #     chess_id = questionary.text("Identifiant national d'échecs:").ask()
     return chess_id
 
 
