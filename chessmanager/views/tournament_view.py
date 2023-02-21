@@ -1,5 +1,7 @@
 import questionary
 
+from datetime import datetime
+
 from .round_view import RoundView
 from .player_view import PlayerView
 from chessmanager.models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED
@@ -15,17 +17,26 @@ def prompt_tournament_data(self) -> tuple:
     title = questionary.text("Titre du tournoi:").ask()
     description = questionary.text("Description du tournoi:").ask()
     area = questionary.text("Lieu:").ask()
-    date_begin = questionary.text(
-        "Date de début (dd/mm/yyyy):",
-        validate=lambda text: True if check_date_format(text)
-        else "Format de date incorrect : dd/mm/yyyy"
-    ).ask()
+    dates_ok = False
+    date_begin = ''
+    date_end = ''
+    while not dates_ok:
+        date_begin = questionary.text(
+            "Date de début (dd/mm/yyyy):",
+            validate=lambda text: True if check_date_format(text)
+            else "Format de date incorrect : dd/mm/yyyy"
+        ).ask()
 
-    date_end = questionary.text(
-        "Date de fin (dd/mm/yyyy):",
-        validate=lambda text: True if check_date_format(text)
-        else "Format de date incorrect : dd/mm/yyyy"
-    ).ask()
+        date_end = questionary.text(
+            "Date de fin (dd/mm/yyyy):",
+            validate=lambda text: True if check_date_format(text)
+            else "Format de date incorrect : dd/mm/yyyy"
+        ).ask()
+
+        if datetime.strptime(date_begin, '%d/%m/%Y') < datetime.strptime(date_end, '%d/%m/%Y'):
+            dates_ok = True
+        else:
+            print("Erreur dans la saisie des dates")
 
     return title, description, area, date_begin, date_end
 
