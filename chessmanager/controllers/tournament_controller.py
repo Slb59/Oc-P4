@@ -101,7 +101,7 @@ class TournamentController:
 
     def close_round(self):
         """
-        ask the tournament id and the round id
+        ask the tournament id, the last round is attempt to close
         if all the scores are recorded
             close the round
         if all the rounds are closed
@@ -111,9 +111,8 @@ class TournamentController:
         tournament_view = TournamentView(self.tournament)
         tournament_view.display_tournament_data()
 
-        round_id = tournament_view.prompt_round_id()
         tournament_controller = TournamentController(self.tournament)
-        a_round = tournament_controller.get_round_id(round_id)
+        a_round = self.tournament.rounds[-1]
         round_view = RoundView(a_round)
         round_controller = RoundController(a_round)
 
