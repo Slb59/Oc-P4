@@ -12,6 +12,16 @@ L'application contient une base de données des joueurs et des tournois réalis�
 en local sous la forme d'un fichier JSON.
 Une fois le programme lancé, un menu principal est proposé au manager des tournois.
 
+![menu](assets/menu.png)
+
+Les reports sont généré au format html et directement ouverts dans le navigateur.
+![menu](assets/menu-reports.png)
+
+Exemple de reports :
+
+![menu](assets/report.png)
+
+
 ## Installation
 ```bash
 # Creer l'environnement virtuel
