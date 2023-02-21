@@ -132,7 +132,7 @@ class ChessManager:
         chess_manager_view.display_all_tournaments()
 
         # prompt id tournament
-        tournament_id = prompt_tournament_id()
+        tournament_id = prompt_tournament_id(self)
         tournament = self.get_tournament(tournament_id)
         tournament_view = TournamentView(tournament)
         if tournament is None:

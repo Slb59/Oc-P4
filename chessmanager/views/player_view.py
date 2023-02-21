@@ -29,6 +29,7 @@ def prompt_player_data(self) -> tuple:
     ).ask()
     return first_name, last_name, birthday, chess_level
 
+
 class PlayerView:
     """
     Manage display for player

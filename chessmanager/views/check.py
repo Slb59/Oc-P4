@@ -1,5 +1,4 @@
 from datetime import datetime
-from questionary import Validator, ValidationError, prompt
 
 
 def check_date_format(a_date) -> bool:
@@ -10,4 +9,9 @@ def check_date_format(a_date) -> bool:
     return res
 
 
-
+def check_time_format(a_time) -> bool:
+    try:
+        res = bool(datetime.strptime(a_time, '%H:%M'))
+    except ValueError:
+        res = False
+    return res
