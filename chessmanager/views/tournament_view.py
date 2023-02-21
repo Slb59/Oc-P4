@@ -1,6 +1,29 @@
+import questionary
+
 from .round_view import RoundView
 from .player_view import PlayerView
-from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED
+from chessmanager.models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED
+from .check import check_date_format
+
+
+def prompt_tournament_id(self) -> int:
+    tournament_id = questionary.text('Saisissez le numéro du tournoi:').ask()
+    return int(tournament_id)
+
+
+def prompt_tournament_data(self) -> tuple:
+    title = questionary.text("Titre du tournoi:").ask()
+    description = questionary.text("Description du tournoi:").ask()
+    area = questionary.text("Lieu:").ask()
+    date_begin = questionary.text("Date de début (dd/mm/yyyy):").ask()
+    while not check_date_format(date_begin):
+        print("Format de date incorrect")
+        date_begin = questionary.text("Date de début (dd/mm/yyyy):").ask()
+    date_end = questionary.text("Date de fin (dd/mm/yyyy):").ask()
+    while not check_date_format(date_end):
+        print("Format de date incorrect")
+        date_end = questionary.text("Date de fin (dd/mm/yyyy):").ask()
+    return title, description, area, date_begin, date_end
 
 
 class TournamentView:

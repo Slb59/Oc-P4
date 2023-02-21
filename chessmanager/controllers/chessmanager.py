@@ -13,8 +13,12 @@ from chessmanager.models import Round
 
 from chessmanager.views import ChessManagerView
 from chessmanager.views import TournamentView
+from chessmanager.views import prompt_tournament_id
+from chessmanager.views import prompt_tournament_data
 from chessmanager.views import DatabaseView
 from chessmanager.views import PlayerView
+from chessmanager.views import prompt_player_id
+from chessmanager.views import prompt_player_data
 
 from .tournament_controller import TournamentController
 from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
@@ -128,7 +132,7 @@ class ChessManager:
         chess_manager_view.display_all_tournaments()
 
         # prompt id tournament
-        tournament_id = chess_manager_view.prompt_tournament_id()
+        tournament_id = prompt_tournament_id()
         tournament = self.get_tournament(tournament_id)
         tournament_view = TournamentView(tournament)
         if tournament is None:
@@ -161,12 +165,11 @@ class ChessManager:
             prompt an error
         """
         chess_manager_view = ChessManagerView(self)
-        player_view = PlayerView()
-        chess_id = player_view.prompt_player_id()
+        chess_id = prompt_player_id(self)
         player = self.get_player(chess_id)
 
         if player is None:
-            player_data = player_view.prompt_player_data()
+            player_data = prompt_player_data(self)
             player = Player(chess_id, player_data[1], player_data[0],
                             player_data[2], player_data[3])
             self.players.append(player)
@@ -184,16 +187,15 @@ class ChessManager:
         - save database
         """
         chess_manager_view = ChessManagerView(self)
-        player_view = PlayerView()
         # display the list of players
         chess_manager_view.display_all_players()
         # prompt the chess id
-        chess_id = player_view.prompt_player_id()
+        chess_id = prompt_player_id(self)
         player = self.get_player(chess_id)
         if player is None:
             chess_manager_view.error_player_not_exist()
         else:
-            player_data = player_view.prompt_player_data()
+            player_data = prompt_player_data(self)
             player.last_name = player_data[1]
             player.first_name = player_data[0]
             player.birthday = datetime.strptime(player_data[2], '%d/%m/%Y')
@@ -214,7 +216,7 @@ class ChessManager:
         chess_manager_view = ChessManagerView(self)
 
         # ask the data of the tournament
-        tournament_data = chess_manager_view.prompt_tournament_data()
+        tournament_data = prompt_tournament_data(self)
 
         # display the list of players
         chess_manager_view.display_all_players()
@@ -224,7 +226,7 @@ class ChessManager:
         players = []
         players_id = []
         while len(players) < MAX_NUMBER_OF_PLAYERS:
-            chess_id = chess_manager_view.prompt_player_id()
+            chess_id = prompt_player_id(self)
             player = self.get_player(chess_id)
             if player is None:
                 chess_manager_view.error_player_not_exist()
@@ -253,7 +255,7 @@ class ChessManager:
         chess_manager_view = ChessManagerView(self)
         # display the tournaments
         chess_manager_view.display_all_tournaments()
-        tournament_id = chess_manager_view.prompt_tournament_id()
+        tournament_id = prompt_tournament_id(self)
         a_tournament = self.get_tournament(tournament_id)
         if a_tournament is None:
             chess_manager_view.error_tournament_not_found()
@@ -280,7 +282,7 @@ class ChessManager:
         chess_manager_view = ChessManagerView(self)
         # display the tournaments
         chess_manager_view.display_all_tournaments()
-        tournament_id = chess_manager_view.prompt_tournament_id()
+        tournament_id = prompt_tournament_id(self)
         a_tournament = self.get_tournament(tournament_id)
         tournament_view = TournamentView(a_tournament)
         if a_tournament is None:
@@ -305,7 +307,7 @@ class ChessManager:
         chess_manager_view = ChessManagerView(self)
         chess_manager_view.display_all_tournaments()
         # prompt id tournament
-        tournament_id = chess_manager_view.prompt_tournament_id()
+        tournament_id = prompt_tournament_id(self)
         tournament = self.get_tournament(tournament_id)
         if tournament is None:
             chess_manager_view.error_tournament_not_found()

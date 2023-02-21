@@ -40,7 +40,7 @@ class Tournament:
         """ give the class tournament in a dictoniary format for json save """
         list_of_players = []
         for a_player in self.players:
-            a_player_dict = a_player.__dict__
+            a_player_dict = a_player.to_dict()
             list_of_players.append(a_player_dict)
         list_of_rounds = []
         for a_round in self.rounds:

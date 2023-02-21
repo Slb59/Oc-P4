@@ -27,8 +27,8 @@ class Round:
         list_of_matches = []
         for match in self.matches:
             list_of_matches.append(
-                ([match[0][0].__dict__, match[0][1]],
-                 [match[1][0].__dict__, match[1][1]])
+                ([match[0][0].to_dict(), match[0][1]],
+                 [match[1][0].to_dict(), match[1][1]])
             )
 
         a_dict = {
