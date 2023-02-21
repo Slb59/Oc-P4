@@ -15,6 +15,7 @@ Une fois le programme lancé, un menu principal est proposé au manager des tour
 ![menu](assets/menu.png)
 
 Les reports sont généré au format html et directement ouverts dans le navigateur.
+
 ![menu](assets/menu-reports.png)
 
 Exemple de reports :
