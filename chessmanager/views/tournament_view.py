@@ -15,14 +15,18 @@ def prompt_tournament_data(self) -> tuple:
     title = questionary.text("Titre du tournoi:").ask()
     description = questionary.text("Description du tournoi:").ask()
     area = questionary.text("Lieu:").ask()
-    date_begin = questionary.text("Date de début (dd/mm/yyyy):").ask()
-    while not check_date_format(date_begin):
-        print("Format de date incorrect")
-        date_begin = questionary.text("Date de début (dd/mm/yyyy):").ask()
-    date_end = questionary.text("Date de fin (dd/mm/yyyy):").ask()
-    while not check_date_format(date_end):
-        print("Format de date incorrect")
-        date_end = questionary.text("Date de fin (dd/mm/yyyy):").ask()
+    date_begin = questionary.text(
+        "Date de début (dd/mm/yyyy):",
+        validate=lambda text: True if check_date_format(text)
+        else "Format de date incorrect : dd/mm/yyyy"
+    ).ask()
+
+    date_end = questionary.text(
+        "Date de fin (dd/mm/yyyy):",
+        validate=lambda text: True if check_date_format(text)
+        else "Format de date incorrect : dd/mm/yyyy"
+    ).ask()
+
     return title, description, area, date_begin, date_end
 
 
