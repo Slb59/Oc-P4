@@ -14,6 +14,7 @@ from chessmanager.models import Round
 from chessmanager.views import ChessManagerView
 from chessmanager.views import TournamentView
 from chessmanager.views import DatabaseView
+from chessmanager.views import PlayerView
 
 from .tournament_controller import TournamentController
 from ..models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
@@ -160,11 +161,12 @@ class ChessManager:
             prompt an error
         """
         chess_manager_view = ChessManagerView(self)
-        chess_id = chess_manager_view.prompt_player_id()
+        player_view = PlayerView()
+        chess_id = player_view.prompt_player_id()
         player = self.get_player(chess_id)
 
         if player is None:
-            player_data = chess_manager_view.prompt_player_data()
+            player_data = player_view.prompt_player_data()
             player = Player(chess_id, player_data[1], player_data[0],
                             player_data[2], player_data[3])
             self.players.append(player)
@@ -182,15 +184,16 @@ class ChessManager:
         - save database
         """
         chess_manager_view = ChessManagerView(self)
+        player_view = PlayerView()
         # display the list of players
         chess_manager_view.display_all_players()
         # prompt the chess id
-        chess_id = chess_manager_view.prompt_player_id()
+        chess_id = player_view.prompt_player_id()
         player = self.get_player(chess_id)
         if player is None:
             chess_manager_view.error_player_not_exist()
         else:
-            player_data = chess_manager_view.prompt_player_data()
+            player_data = player_view.prompt_player_data()
             player.last_name = player_data[1]
             player.first_name = player_data[0]
             player.birthday = datetime.strptime(player_data[2], '%d/%m/%Y')
