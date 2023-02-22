@@ -20,7 +20,8 @@ class Round:
         self.time_begin = datetime.strptime(time_begin, '%H:%M')
         self.date_end = \
             datetime.strptime(date_end, '%d/%m/%Y') if date_end else ''
-        self.time_end = datetime.strptime(time_end, '%H:%M') if time_end else ''
+        self.time_end = datetime.strptime(
+            time_end, '%H:%M') if time_end else ''
 
         self.matches = []
         self.state = state

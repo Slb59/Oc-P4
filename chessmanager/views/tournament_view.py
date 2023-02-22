@@ -4,7 +4,8 @@ from datetime import datetime
 
 from .round_view import RoundView
 from .player_view import PlayerView
-from chessmanager.models.tournament import TOURNAMENT_CLOSED, TOURNAMENT_STARTED
+from chessmanager.models.tournament import TOURNAMENT_CLOSED
+from chessmanager.models.tournament import TOURNAMENT_STARTED
 from .check import check_date_format
 
 
@@ -108,6 +109,7 @@ class TournamentView:
 
     def error_tournament_started(self):
         print("!! Ce tournoi est déjà en cours")
+
     def error_tournament_closed(self):
         print("!! Ce tournoi est terminé")
 

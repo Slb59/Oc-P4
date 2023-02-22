@@ -10,10 +10,11 @@ class ChessManagerReports:
     """
     Generate html files for the reports of the chess manager
     """
+
     def __init__(self, chess_manager):
         self.chess_manager = chess_manager
-        self.filename = self.chess_manager.output_directory \
-                        + '/chessmanager_report.html'
+        self.filename = \
+            self.chess_manager.output_directory + '/chessmanager_report.html'
 
     def style_css(self):
         # if not os.path.exists(self.css_filename):
@@ -26,16 +27,15 @@ class ChessManagerReports:
         <html lang="fr">
         <head>
             <meta charset="utf-8">
-            <title>Gestion de tournois d'échecs</title>  
-            <link href="style.css" rel="stylesheet">     
-            <link rel="preconnect" 
+            <title>Gestion de tournois d'échecs</title>
+            <link href="style.css" rel="stylesheet">
+            <link rel="preconnect"
             href="https://fonts.googleapis.com">
-            <link rel="preconnect" 
+            <link rel="preconnect"
             href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/
-            css2?family=Raleway:wght@100&display=swap" 
-            rel="stylesheet"> 
-                          
+            css2?family=Raleway:wght@100&display=swap"
+            rel="stylesheet">
         </head>
         <body>
         """
@@ -49,15 +49,15 @@ class ChessManagerReports:
     def report_header(self, title) -> str:
         return """
         <header>
-        <h1>""" + title + """</h1>  
+        <h1>""" + title + """</h1>
         <hr width="70%" size="8" align="center">
-        </header>    
+        </header>
         """
 
     def report_footer(self) -> str:
         now = datetime.now().strftime("%d/%m/%Y %H:%M")
         img = """<img src="
-        """ + os.getcwd() + '/assets/logo.png' + """        
+        """ + os.getcwd() + '/assets/logo.png' + """
         " /> """
 
         return """
@@ -65,7 +65,7 @@ class ChessManagerReports:
             <h3> """ + img + """
         Gestionnaire de tournois d'échecs - Extraction des données du """ \
                + now + img + """
-        </h3>        
+        </h3>
         </footer>
         """
 
@@ -94,12 +94,13 @@ class ChessManagerReports:
             body += """ <div class="box"> """ \
                     + player.last_name + """ </div> """
             body += """ <div class="box"> """
-            body += datetime.strftime(player.birthday,'%d/%m/%Y') \
-                    + """ </div> """
+            body += \
+                datetime.strftime(player.birthday, '%d/%m/%Y') \
+                + """ </div> """
             body += """ <div class="box"> """ + str(player.chess_level) \
                     + """ </div> """
 
-        body += """</div></h3>>            
+        body += """</div></h3>>
                     </main>
                     """
         return body
@@ -190,7 +191,9 @@ class ChessManagerReports:
             body += """<div class="box">""" \
                     + tournament.date_begin + """</div>"""
             body += """<div class="box">Date fin:</div>"""
-            body += """<div class="box">""" + tournament.date_end + """</div>"""
+            body += """<div class="box">""" \
+                    + tournament.date_end \
+                    + """</div>"""
             body += """<div class="box">Nombre de rounds:</div>"""
             body += """<div class="box">""" \
                     + str(tournament.nb_of_rounds) + """</div>"""
@@ -218,7 +221,6 @@ class ChessManagerReports:
             f.write(self.html_footer())
         self.open_in_browser()
 
-
     def tournaments_details(self, tournament):
         """
         Give the details of a tournament : all the rounds
@@ -242,7 +244,8 @@ class ChessManagerReports:
                 body += ' au '
                 if a_round.date_end:
                     body += datetime.strftime(a_round.date_end, '%d/%m/%Y')
-                    body += ' à ' + datetime.strftime(a_round.time_end, '%H:%M')
+                    body += ' à ' \
+                            + datetime.strftime(a_round.time_end, '%H:%M')
                 body += """</h2>"""
                 body += """</div><h3>"""
                 body += """<div class="conteneur-match">"""

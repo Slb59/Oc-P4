@@ -1,10 +1,10 @@
 __version__ = "0.1"
 __author__ = "Sylvie Bricout"
 
-from .parameters import Parameters
-from .argparser import ArgParser
-from .chessmanager import ChessManager
-from .tournament_controller import TournamentController
-from .round_controller import RoundController
-from .reports import ChessManagerReports
-from .database import ChessManagerDatabase
+from .parameters import Parameters  # noqa: F401
+from .argparser import ArgParser  # noqa: F401
+from .chessmanager import ChessManager  # noqa: F401
+from .tournament_controller import TournamentController  # noqa: F401
+from .round_controller import RoundController  # noqa: F401
+from .reports import ChessManagerReports  # noqa: F401
+from .database import ChessManagerDatabase  # noqa: F401

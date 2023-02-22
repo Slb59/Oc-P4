@@ -338,4 +338,3 @@ class ChessManager:
             elif answer == chess_manager_view.main_menu_choices()[6]:
                 self.generate_reports()
         LOGGER.debug("Quit program")
-

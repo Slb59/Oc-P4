@@ -94,9 +94,10 @@ class RoundView:
         for i, match in enumerate(self.round.matches):
             text_match = f'Match {i+1}'
             nb_of_space = len_for_players - len(str(match[0][0]))
-            text_white = str(match[0][0]) \
-                         + nb_of_space*' ' \
-                         + '|' + f' score:{match[0][1]}'
+            text_white = \
+                str(match[0][0]) \
+                + nb_of_space*' ' \
+                + '|' + f' score:{match[0][1]}'
             nb_of_space = len_for_players - len(str(match[1][0]))
             text_black = f' | {match[1][0]}' + \
                          nb_of_space*' ' + '|' + \
