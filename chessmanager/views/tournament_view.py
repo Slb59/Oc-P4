@@ -9,11 +9,13 @@ from .check import check_date_format
 
 
 def prompt_tournament_id(self) -> int:
+    """ ask tournament id """
     tournament_id = questionary.text('Saisissez le numéro du tournoi:').ask()
     return int(tournament_id)
 
 
 def prompt_tournament_data(self) -> tuple:
+    """ ask tournament data """
     title = questionary.text("Titre du tournoi:").ask()
     description = questionary.text("Description du tournoi:").ask()
     area = questionary.text("Lieu:").ask()
@@ -42,6 +44,9 @@ def prompt_tournament_data(self) -> tuple:
 
 
 class TournamentView:
+    """
+    Display data and errors about tournament
+    """
     def __init__(self, a_tournament=None):
         self.tournament = a_tournament
 

@@ -2,7 +2,7 @@ from chessmanager.views import RoundView
 
 
 class RoundController:
-    """ manage the score of a round """
+    """ Manage the score of a round """
 
     def __init__(self, a_round=None):
         self.round = a_round

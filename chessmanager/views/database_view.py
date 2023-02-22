@@ -1,4 +1,5 @@
 class DatabaseView:
+    """ Display about the view status """
 
     def __init__(self, filename):
         self.filename = filename

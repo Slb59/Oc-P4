@@ -6,6 +6,7 @@ from .check import check_date_format
 
 
 def prompt_player_id(self) -> str:
+    """ ask a chess_id """
     chess_id = questionary.text(
         "Identifiant national d'échecs:",
         validate=lambda text: True if re.match(r"[A-Z][A-Z]\d\d\d\d\d", text)
@@ -15,6 +16,7 @@ def prompt_player_id(self) -> str:
 
 
 def prompt_player_data(self) -> tuple:
+    """ ask player data """
     first_name = questionary.text("Nom:").ask()
     last_name = questionary.text("Prénom:").ask()
     birthday = questionary.text(

@@ -1,7 +1,7 @@
 import datetime
 
 class Player:
-    """ Manage the informations of a chess player """
+    """ Manage the datas of a chess player """
     def __init__(self, chess_id, last_name, first_name, birthday, chess_level, current_score=0):
         self.chess_id = chess_id
         self.last_name = last_name

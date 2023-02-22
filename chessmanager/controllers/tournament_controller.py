@@ -15,6 +15,9 @@ from ..models.tournament import TOURNAMENT_CLOSED
 
 
 class TournamentController:
+    """
+    Manage a tournament behaviour
+    """
     def __init__(self, a_tournament):
         self.tournament = a_tournament
 

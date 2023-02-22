@@ -6,6 +6,9 @@ MAX_NUMBER_OF_PLAYERS = 8
 
 
 class Tournament:
+    """
+    Manage the data of a tournament
+    """
     def __init__(self, tournament_id,
                  title,
                  description,

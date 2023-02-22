@@ -8,6 +8,9 @@ ROUND_STATES = [ROUND_STARTED, ROUND_CLOSED]
 
 
 class Round:
+    """
+    Manage the data of a round
+    """
     def __init__(self, round_id, name,
                  date_begin, time_begin,
                  date_end='', time_end='', state=ROUND_STARTED):
