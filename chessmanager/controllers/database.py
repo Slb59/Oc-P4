@@ -23,7 +23,7 @@ class ChessManagerDatabase:
                 json_file,
                 indent=4,
                 separators=(',', ': ')
-        )
+            )
 
     def load_players(self):
         filename = self.chess_manager.data_directory + '/players.json'
@@ -56,20 +56,27 @@ class ChessManagerDatabase:
             with open(filename, encoding='utf8') as f:
                 data = json.load(f)
             for elem in data:
-                tournament = Tournament(elem['tournament_id'], elem['title'], elem['description'],
-                                        elem['area'], elem['date_begin'], elem['date_end'],
+                tournament = Tournament(elem['tournament_id'],
+                                        elem['title'], elem['description'],
+                                        elem['area'], elem['date_begin'],
+                                        elem['date_end'],
                                         elem['nb_of_rounds'], elem['state'])
                 for player in elem['players']:
                     new_player = Player(**player)
                     tournament.players.append(new_player)
                 for a_round in elem['rounds']:
-                    new_round = Round(a_round['round_id'], a_round['name'], a_round['date_begin'],
-                                      a_round['time_begin'], a_round['date_end'], a_round['time_end'],
+                    new_round = Round(a_round['round_id'],
+                                      a_round['name'],
+                                      a_round['date_begin'],
+                                      a_round['time_begin'],
+                                      a_round['date_end'],
+                                      a_round['time_end'],
                                       a_round['state'])
                     for a_match in a_round['matches']:
                         player_white = Player(**a_match[0][0])
                         player_black = Player(**a_match[1][0])
-                        new_match = [player_white, a_match[0][1]], [player_black, a_match[1][1]]
+                        new_match = [player_white, a_match[0][1]], \
+                                    [player_black, a_match[1][1]]
                         new_round.matches.append(new_match)
 
                     tournament.rounds.append(new_round)

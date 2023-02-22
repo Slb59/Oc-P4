@@ -62,6 +62,3 @@ class Tournament:
             "rounds": list_of_rounds
         }
         return a_dict
-
-
-

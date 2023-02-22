@@ -26,7 +26,8 @@ def prompt_player_data(self) -> tuple:
     ).ask()
     chess_level = questionary.text(
         "Points ELO:",
-        validate=lambda text: True if len(text) > 0 and (1000 <= int(text) <= 3000)
+        validate=lambda text:
+        True if len(text) > 0 and (1000 <= int(text) <= 3000)
         else "Les points ELO se situe entre 1000 et 3000"
     ).ask()
     return first_name, last_name, birthday, chess_level
@@ -40,8 +41,8 @@ class PlayerView:
         self.player = a_player
 
     def display_player_data(self):
-        print(f'Joueur {self.player.chess_id}: {self.player.last_name} {self.player.first_name}')
-        print(f"Date de naissance: {datetime.strftime(self.player.birthday, '%d/%m/%Y')}")
+        print(f'Joueur {self.player.chess_id}: '
+              f'{self.player.last_name} {self.player.first_name}')
+        print(f"Date de naissance: "
+              f"{datetime.strftime(self.player.birthday, '%d/%m/%Y')}")
         print(f'Niveau internationnal du joueur: {self.player.chess_level}')
-
-

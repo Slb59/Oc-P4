@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', function () {
 </script>
    </head>
    <body>
-      <div id="masthead" class="sev-2"></div>
+      <div id="masthead" class="sev-1"></div>
       <div id="page">
          <p id="srclink">
             <a title="View full annotated source"
@@ -50,18 +50,121 @@ window.addEventListener('DOMContentLoaded', function () {
          <ul id="index">
          
          <li>
-            <a data-code="W292">
-               <span class="count sev-2">
-                  1
+            <a data-code="F401">
+               <span class="count sev-1">
+                  10
                </span>
-               <strong>W292:</strong> no newline at end of file
+               <strong>F401:</strong> '.player.Player' imported but unused
+               
+                  (and 9 similar)
                
             </a>
             <ul class="details">
             <li>
                
-               <a href="chessmanager.models.__init__.source.html#l2">
-                  <tt><i>2</i> <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Sylvie Bricout&quot;</span></tt>
+               <p>'.player.Player' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l4">
+                  <tt><i>4</i> <span class="kn">from</span> <span class="nn">.player</span> <span class="kn">import</span> <span class="n">Player</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.tournament.Tournament' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l5">
+                  <tt><i>5</i> <span class="kn">from</span> <span class="nn">.tournament</span> <span class="kn">import</span> <span class="n">Tournament</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.tournament.MAX_NUMBER_OF_PLAYERS' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l6">
+                  <tt><i>6</i> <span class="kn">from</span> <span class="nn">.tournament</span> <span class="kn">import</span> <span class="n">MAX_NUMBER_OF_PLAYERS</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.tournament.TOURNAMENT_CLOSED' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l7">
+                  <tt><i>7</i> <span class="kn">from</span> <span class="nn">.tournament</span> <span class="kn">import</span> <span class="n">TOURNAMENT_CLOSED</span><span class="p">,</span> <span class="n">TOURNAMENT_STARTED</span><span class="p">,</span> <span class="n">TOURNAMENT_NOT_STARTED</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.tournament.TOURNAMENT_NOT_STARTED' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l7">
+                  <tt><i>7</i> <span class="kn">from</span> <span class="nn">.tournament</span> <span class="kn">import</span> <span class="n">TOURNAMENT_CLOSED</span><span class="p">,</span> <span class="n">TOURNAMENT_STARTED</span><span class="p">,</span> <span class="n">TOURNAMENT_NOT_STARTED</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.tournament.TOURNAMENT_STARTED' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l7">
+                  <tt><i>7</i> <span class="kn">from</span> <span class="nn">.tournament</span> <span class="kn">import</span> <span class="n">TOURNAMENT_CLOSED</span><span class="p">,</span> <span class="n">TOURNAMENT_STARTED</span><span class="p">,</span> <span class="n">TOURNAMENT_NOT_STARTED</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.tournament.STATES' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l8">
+                  <tt><i>8</i> <span class="kn">from</span> <span class="nn">.tournament</span> <span class="kn">import</span> <span class="n">STATES</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.round.Round' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l9">
+                  <tt><i>9</i> <span class="kn">from</span> <span class="nn">.round</span> <span class="kn">import</span> <span class="n">Round</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.round.ROUND_CLOSED' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l10">
+                  <tt><i>10</i> <span class="kn">from</span> <span class="nn">.round</span> <span class="kn">import</span> <span class="n">ROUND_CLOSED</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.round.ROUND_STARTED' imported but unused:</p>
+               
+               <a href="chessmanager.models.__init__.source.html#l11">
+                  <tt><i>11</i> <span class="kn">from</span> <span class="nn">.round</span> <span class="kn">import</span> <span class="n">ROUND_STARTED</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E501">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E501:</strong> line too long (85 > 79 characters)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="chessmanager.models.__init__.source.html#l7">
+                  <tt><i>7</i> <span class="kn">from</span> <span class="nn">.tournament</span> <span class="kn">import</span> <span class="n">TOURNAMENT_CLOSED</span><span class="p">,</span> <span class="n">TOURNAMENT_STARTED</span><span class="p">,</span> <span class="n">TOURNAMENT_NOT_STARTED</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W391">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>W391:</strong> blank line at end of file
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="chessmanager.models.__init__.source.html#l14">
+                  <tt><i>14</i> &nbsp;</tt>
                </a>
             </li>
             </ul>

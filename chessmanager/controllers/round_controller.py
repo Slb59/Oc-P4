@@ -57,5 +57,3 @@ class RoundController:
         else:
             self.round.matches[result[0]][0][1] = 0.5
             self.round.matches[result[0]][1][1] = 0.5
-
-

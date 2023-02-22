@@ -1,5 +1,4 @@
 import questionary
-from .check import check_date_format
 
 from .player_view import PlayerView
 from .tournament_view import TournamentView
@@ -30,7 +29,8 @@ class ChessManagerView:
                 "Liste de tous les tournois",
                 "Nom et dates d'un tournoi donné",
                 "Liste des joueurs d'un tournoi par ordre alphabétique",
-                "Liste de tous les tours du tournoi et de tous les matchs du tour",
+                "Liste de tous les tours du tournoi et "
+                "de tous les matchs du tour",
                 "Revenir au menu principal"
             ]
 
@@ -85,6 +85,7 @@ class ChessManagerView:
                 tournament_view = TournamentView(tournament)
                 tournament_view.display_tournament_title()
                 print('')
+
     def display_players_selection(self):
         print('Sélectionnez 8 joueurs parmis les joueurs ci-dessus')
 

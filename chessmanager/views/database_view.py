@@ -5,7 +5,8 @@ class DatabaseView:
         self.filename = filename
 
     def display_database_not_found(self):
-        text = f"!!! Attention la base de données {self.filename} n''a pas été trouvée"
+        text = f"!!! Attention la base de données " \
+               f"{self.filename} n''a pas été trouvée"
         print(text)
 
     def display_database_loaded(self):

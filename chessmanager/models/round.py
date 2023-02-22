@@ -18,7 +18,8 @@ class Round:
         self.name = name
         self.date_begin = datetime.strptime(date_begin, '%d/%m/%Y')
         self.time_begin = datetime.strptime(time_begin, '%H:%M')
-        self.date_end = datetime.strptime(date_end, '%d/%m/%Y') if date_end else ''
+        self.date_end = \
+            datetime.strptime(date_end, '%d/%m/%Y') if date_end else ''
         self.time_end = datetime.strptime(time_end, '%H:%M') if time_end else ''
 
         self.matches = []
@@ -41,8 +42,10 @@ class Round:
             "name": self.name,
             "date_begin": datetime.strftime(self.date_begin, '%d/%m/%Y'),
             "time_begin": datetime.strftime(self.time_begin, '%H:%M'),
-            "date_end": datetime.strftime(self.date_end, '%d/%m/%Y') if self.date_end else '',
-            "time_end": datetime.strftime(self.time_end, '%H:%M') if self.time_end else '',
+            "date_end": datetime.strftime(
+                self.date_end, '%d/%m/%Y') if self.date_end else '',
+            "time_end": datetime.strftime(
+                self.time_end, '%H:%M') if self.time_end else '',
             "state": self.state,
             "matches": list_of_matches
         }

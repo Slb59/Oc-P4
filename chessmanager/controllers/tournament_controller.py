@@ -149,7 +149,8 @@ class TournamentController:
 
     def sort_players_by_score(self):
         """ sort the players by current_score """
-        self.tournament.players.sort(key=lambda x: x.current_score, reverse=True)
+        self.tournament.players.sort(
+            key=lambda x: x.current_score, reverse=True)
 
     def pairing_first_round(self):
         """
@@ -166,7 +167,8 @@ class TournamentController:
             list_pairing.append(set_of_players)
         return list_pairing
 
-    def check_player_already_played_together(self, player_white, player_black) -> bool:
+    def check_player_already_played_together(
+            self, player_white, player_black) -> bool:
         """
         If the players have already played together
             return True
@@ -184,7 +186,8 @@ class TournamentController:
 
     def pairing_next_round(self) -> list:
         """
-        Pairing the players whith controle that they don't already played together
+        Pairing the players whith controle
+        that they don't already played together
         :return: a list of players
         """
         list_pairing = []
@@ -197,7 +200,8 @@ class TournamentController:
                 # looking for player black
                 for player_black in self.tournament.players:
                     if player_black not in players_selected and \
-                            not self.check_player_already_played_together(player_white, player_black):
+                            not self.check_player_already_played_together(
+                                player_white, player_black):
                         set_of_players = [player_white, player_black]
                         list_pairing.append(set_of_players)
                         players_selected.append(player_black)

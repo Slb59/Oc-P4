@@ -12,11 +12,13 @@ class ChessManagerReports:
     """
     def __init__(self, chess_manager):
         self.chess_manager = chess_manager
-        self.filename = self.chess_manager.output_directory + '/chessmanager_report.html'
+        self.filename = self.chess_manager.output_directory \
+                        + '/chessmanager_report.html'
 
     def style_css(self):
         # if not os.path.exists(self.css_filename):
-        shutil.copyfile('assets/style.css', self.chess_manager.output_directory + '/style.css')
+        shutil.copyfile('assets/style.css',
+                        self.chess_manager.output_directory + '/style.css')
 
     def html_header(self) -> str:
         return """
@@ -26,9 +28,13 @@ class ChessManagerReports:
             <meta charset="utf-8">
             <title>Gestion de tournois d'échecs</title>  
             <link href="style.css" rel="stylesheet">     
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet"> 
+            <link rel="preconnect" 
+            href="https://fonts.googleapis.com">
+            <link rel="preconnect" 
+            href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/
+            css2?family=Raleway:wght@100&display=swap" 
+            rel="stylesheet"> 
                           
         </head>
         <body>
@@ -57,7 +63,8 @@ class ChessManagerReports:
         return """
         <footer>
             <h3> """ + img + """
-        Gestionnaire de tournois d'échecs - Extraction des données du """ + now + img + """
+        Gestionnaire de tournois d'échecs - Extraction des données du """ \
+               + now + img + """
         </h3>        
         </footer>
         """
@@ -80,12 +87,17 @@ class ChessManagerReports:
                     <div class="box">Niveau ELO</div>
                     """
         for player in sorted(players, key=self.sort_alpha_order):
-            body += """ <div class="box"> """ + player.chess_id + """ </div> """
-            body += """ <div class="box"> """ + player.first_name + """ </div> """
-            body += """ <div class="box"> """ + player.last_name + """ </div> """
+            body += """ <div class="box"> """ \
+                    + player.chess_id + """ </div> """
+            body += """ <div class="box"> """ \
+                    + player.first_name + """ </div> """
+            body += """ <div class="box"> """ \
+                    + player.last_name + """ </div> """
             body += """ <div class="box"> """
-            body += datetime.strftime(player.birthday,'%d/%m/%Y') + """ </div> """
-            body += """ <div class="box"> """ + str(player.chess_level) + """ </div> """
+            body += datetime.strftime(player.birthday,'%d/%m/%Y') \
+                    + """ </div> """
+            body += """ <div class="box"> """ + str(player.chess_level) \
+                    + """ </div> """
 
         body += """</div></h3>>            
                     </main>
@@ -99,8 +111,10 @@ class ChessManagerReports:
         self.style_css()
         with open(self.filename, 'w', encoding='utf8') as f:
             f.write(self.html_header())
-            f.write(self.report_header('Liste des joueurs inscrits dans le club'))
-            f.write(self.html_body_for_list_of_players(self.chess_manager.players))
+            f.write(self.report_header(
+                'Liste des joueurs inscrits dans le club'))
+            f.write(self.html_body_for_list_of_players(
+                self.chess_manager.players))
             f.write(self.report_footer())
             f.write(self.html_footer())
         self.open_in_browser()
@@ -120,7 +134,8 @@ class ChessManagerReports:
         self.style_css()
         with open(self.filename, 'w', encoding='utf8') as f:
             f.write(self.html_header())
-            f.write(self.report_header('Liste des tournois enregistrés dans le club'))
+            f.write(self.report_header(
+                'Liste des tournois enregistrés dans le club'))
             body = """<main>
             <h3>
             <div class="conteneur-tournaments">
@@ -134,13 +149,20 @@ class ChessManagerReports:
             <div class="box">Etat</div>
             """
             for tournament in self.chess_manager.tournaments:
-                body += """ <div class="box"> """ + str(tournament.tournament_id) + """ </div> """
-                body += """ <div class="box"> """ + tournament.title + """ </div> """
-                body += """ <div class="box"> """ + tournament.description + """ </div> """
-                body += """ <div class="box"> """ + tournament.area + """ </div> """
-                body += """ <div class="box"> """ + tournament.date_begin + """ </div> """
-                body += """ <div class="box"> """ + tournament.date_end + """ </div> """
-                body += """ <div class="box"> """ + str(tournament.nb_of_rounds) + """ </div> """
+                body += """ <div class="box"> """ \
+                        + str(tournament.tournament_id) + """ </div> """
+                body += """ <div class="box"> """ \
+                        + tournament.title + """ </div> """
+                body += """ <div class="box"> """ \
+                        + tournament.description + """ </div> """
+                body += """ <div class="box"> """ \
+                        + tournament.area + """ </div> """
+                body += """ <div class="box"> """ \
+                        + tournament.date_begin + """ </div> """
+                body += """ <div class="box"> """ \
+                        + tournament.date_end + """ </div> """
+                body += """ <div class="box"> """ \
+                        + str(tournament.nb_of_rounds) + """ </div> """
                 body += self.box_from_state(tournament.state)
             body += """</div></h3>></main>"""
             f.write(body)
@@ -153,21 +175,25 @@ class ChessManagerReports:
         with open(self.filename, 'w', encoding='utf8') as f:
             f.write(self.html_header())
             f.write(self.report_header(
-                'Description du tournoi numéro ' + str(tournament.tournament_id)))
+                'Description du tournoi numéro '
+                + str(tournament.tournament_id)))
             body = """<main><h3>
             <div class="conteneur-tournament-data">"""
             body += """<div class="box">Titre:</div>"""
             body += """<div class="box">""" + tournament.title + """</div>"""
             body += """<div class="box">Description:</div>"""
-            body += """<div class="box">""" + tournament.description + """</div>"""
+            body += """<div class="box">""" \
+                    + tournament.description + """</div>"""
             body += """<div class="box">Lieu:</div>"""
             body += """<div class="box">""" + tournament.area + """</div>"""
             body += """<div class="box">Date début:</div>"""
-            body += """<div class="box">""" + tournament.date_begin + """</div>"""
+            body += """<div class="box">""" \
+                    + tournament.date_begin + """</div>"""
             body += """<div class="box">Date fin:</div>"""
             body += """<div class="box">""" + tournament.date_end + """</div>"""
             body += """<div class="box">Nombre de rounds:</div>"""
-            body += """<div class="box">""" + str(tournament.nb_of_rounds) + """</div>"""
+            body += """<div class="box">""" \
+                    + str(tournament.nb_of_rounds) + """</div>"""
             body += """<div class="box">Etat:</div>"""
             body += self.box_from_state(tournament.state)
             body += """</div></h3>></main>"""
@@ -185,7 +211,8 @@ class ChessManagerReports:
         with open(self.filename, 'w', encoding='utf8') as f:
             f.write(self.html_header())
             f.write(self.report_header(
-                'Liste des joueurs du tournoi numéro ' + str(tournament.tournament_id)))
+                'Liste des joueurs du tournoi numéro '
+                + str(tournament.tournament_id)))
             f.write(self.html_body_for_list_of_players(tournament.players))
             f.write(self.report_footer())
             f.write(self.html_footer())
@@ -203,12 +230,14 @@ class ChessManagerReports:
         with open(self.filename, 'w', encoding='utf8') as f:
             f.write(self.html_header())
             f.write(self.report_header(
-                'Liste des tours du tournoi numéro ' + str(tournament.tournament_id)))
+                'Liste des tours du tournoi numéro '
+                + str(tournament.tournament_id)))
             body = """<main>"""
             for a_round in tournament.rounds:
                 body += """<h2>"""
                 body += a_round.name
-                body += '   Du ' + datetime.strftime(a_round.date_begin, '%d/%m/%Y')
+                body += '   Du ' + datetime.strftime(
+                    a_round.date_begin, '%d/%m/%Y')
                 body += ' à ' + datetime.strftime(a_round.time_begin, '%H:%M')
                 body += ' au '
                 if a_round.date_end:
@@ -223,11 +252,16 @@ class ChessManagerReports:
                 body += """<div class="box">Joueur 2</div>"""
                 body += """<div class="box">Score joueur 2</div>"""
                 for index, match in enumerate(a_round.matches):
-                    body += """ <div class="box"> """ + str(index + 1) + """ </div> """
-                    body += """ <div class="box"> """ + str(match[0][0]) + """ </div> """
-                    body += """ <div class="box"> """ + str(match[0][1]) + """ </div> """
-                    body += """ <div class="box"> """ + str(match[1][0]) + """ </div> """
-                    body += """ <div class="box"> """ + str(match[1][1]) + """ </div> """
+                    body += """ <div class="box"> """ \
+                            + str(index + 1) + """ </div> """
+                    body += """ <div class="box"> """ \
+                            + str(match[0][0]) + """ </div> """
+                    body += """ <div class="box"> """ \
+                            + str(match[0][1]) + """ </div> """
+                    body += """ <div class="box"> """ \
+                            + str(match[1][0]) + """ </div> """
+                    body += """ <div class="box"> """ \
+                            + str(match[1][1]) + """ </div> """
                 body += """</div></h3>"""
             body += """</main>"""
             f.write(body)

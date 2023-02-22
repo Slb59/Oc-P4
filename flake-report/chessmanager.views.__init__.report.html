@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', function () {
 </script>
    </head>
    <body>
-      <div id="masthead" class="sev-2"></div>
+      <div id="masthead" class="sev-1"></div>
       <div id="page">
          <p id="srclink">
             <a title="View full annotated source"
@@ -50,18 +50,86 @@ window.addEventListener('DOMContentLoaded', function () {
          <ul id="index">
          
          <li>
-            <a data-code="W292">
-               <span class="count sev-2">
-                  1
+            <a data-code="F401">
+               <span class="count sev-1">
+                  6
                </span>
-               <strong>W292:</strong> no newline at end of file
+               <strong>F401:</strong> '.chessmanager_view.ChessManagerView' imported but unused
+               
+                  (and 5 similar)
                
             </a>
             <ul class="details">
             <li>
                
-               <a href="chessmanager.views.__init__.source.html#l2">
-                  <tt><i>2</i> <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Sylvie Bricout&quot;</span></tt>
+               <p>'.chessmanager_view.ChessManagerView' imported but unused:</p>
+               
+               <a href="chessmanager.views.__init__.source.html#l4">
+                  <tt><i>4</i> <span class="kn">from</span> <span class="nn">.chessmanager_view</span> <span class="kn">import</span> <span class="n">ChessManagerView</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.database_view.DatabaseView' imported but unused:</p>
+               
+               <a href="chessmanager.views.__init__.source.html#l5">
+                  <tt><i>5</i> <span class="kn">from</span> <span class="nn">.database_view</span> <span class="kn">import</span> <span class="n">DatabaseView</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.round_view.RoundView' imported but unused:</p>
+               
+               <a href="chessmanager.views.__init__.source.html#l6">
+                  <tt><i>6</i> <span class="kn">from</span> <span class="nn">.round_view</span> <span class="kn">import</span> <span class="n">RoundView</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.tournament_view.*' imported but unused:</p>
+               
+               <a href="chessmanager.views.__init__.source.html#l7">
+                  <tt><i>7</i> <span class="kn">from</span> <span class="nn">.tournament_view</span> <span class="kn">import</span> <span class="o">*</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.player_view.*' imported but unused:</p>
+               
+               <a href="chessmanager.views.__init__.source.html#l8">
+                  <tt><i>8</i> <span class="kn">from</span> <span class="nn">.player_view</span> <span class="kn">import</span> <span class="o">*</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'.check.check_date_format' imported but unused:</p>
+               
+               <a href="chessmanager.views.__init__.source.html#l9">
+                  <tt><i>9</i> <span class="kn">from</span> <span class="nn">.check</span> <span class="kn">import</span> <span class="n">check_date_format</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="F403">
+               <span class="count sev-1">
+                  2
+               </span>
+               <strong>F403:</strong> 'from .tournament_view import *' used; unable to detect undefined names
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>'from .tournament_view import *' used; unable to detect undefined names:</p>
+               
+               <a href="chessmanager.views.__init__.source.html#l7">
+                  <tt><i>7</i> <span class="kn">from</span> <span class="nn">.tournament_view</span> <span class="kn">import</span> <span class="o">*</span></tt>
+               </a>
+            </li><li>
+               
+               <p>'from .player_view import *' used; unable to detect undefined names:</p>
+               
+               <a href="chessmanager.views.__init__.source.html#l8">
+                  <tt><i>8</i> <span class="kn">from</span> <span class="nn">.player_view</span> <span class="kn">import</span> <span class="o">*</span></tt>
                </a>
             </li>
             </ul>

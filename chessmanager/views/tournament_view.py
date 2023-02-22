@@ -35,7 +35,8 @@ def prompt_tournament_data(self) -> tuple:
             else "Format de date incorrect : dd/mm/yyyy"
         ).ask()
 
-        if datetime.strptime(date_begin, '%d/%m/%Y') < datetime.strptime(date_end, '%d/%m/%Y'):
+        if datetime.strptime(date_begin, '%d/%m/%Y') \
+                < datetime.strptime(date_end, '%d/%m/%Y'):
             dates_ok = True
         else:
             print("Erreur dans la saisie des dates")
@@ -73,7 +74,9 @@ class TournamentView:
         print(len(text) * '*')
         print(text)
         print(len(text) * '*')
-        print(f'Lieu : {self.tournament.area}  Du : {self.tournament.date_begin} au {self.tournament.date_end}')
+        print(f'Lieu : {self.tournament.area}  '
+              f'Du : {self.tournament.date_begin} '
+              f'au {self.tournament.date_end}')
         print(f'Jeu en {self.tournament.nb_of_rounds} round'
               + 's' if self.tournament.nb_of_rounds > 1 else '')
         print(len(text) * '*')
@@ -113,10 +116,3 @@ class TournamentView:
 
     def error_all_matches_not_closed(self):
         print("!!! Les scores des matches ne sont pas tous enregistrés.")
-
-
-
-
-
-
-

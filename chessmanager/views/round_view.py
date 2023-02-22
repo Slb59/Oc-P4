@@ -43,10 +43,12 @@ class RoundView:
         return a_date, a_time
 
     def prompt_match_result(self, index) -> int:
-        print('Saisir 1 si le joueur de gauche gagne, saisir 2 si le joueur de droite gagne, 0 sinon')
+        print('Saisir 1 si le joueur de gauche gagne, '
+              'saisir 2 si le joueur de droite gagne, 0 sinon')
         result = questionary.text(
             f'Résultat du match {index+1}:',
-            validate=lambda text: True if len(text) > 0 and int(text) in [0, 1, 2]
+            validate=lambda text:
+            True if len(text) > 0 and int(text) in [0, 1, 2]
             else 'Veuillez saisir 0, 1 ou 2 selon le résultat du match'
         ).ask()
 
@@ -56,14 +58,18 @@ class RoundView:
 
         index = questionary.text(
             "Numéro du match (1 à 4)",
-            validate=lambda text: True if len(text) > 0 and int(text) in [1, 2, 3, 4]
+            validate=lambda text:
+            True if len(text) > 0 and int(text) in [1, 2, 3, 4]
             else 'Saisir une valeur entre 1 et 4'
         ).ask()
 
-        print('Résultats:  0 - Egalité, 1: Le premier joueur gagne, 2: Le deuxième joueur gagne')
+        print('Résultats:  0 - Egalité, '
+              '1: Le premier joueur gagne, '
+              '2: Le deuxième joueur gagne')
         result = questionary.text(
             f'Résultat du match {index}:',
-            validate=lambda text: True if len(text) > 0 and int(text) in [0, 1, 2]
+            validate=lambda text:
+            True if len(text) > 0 and int(text) in [0, 1, 2]
             else 'Veuillez saisir 0, 1 ou 2 selon le résultat du match'
         ).ask()
 
@@ -78,7 +84,7 @@ class RoundView:
         text = f'{self.round.name} du '
         text += f"{datetime.strftime(self.round.date_begin, '%d/%m/%Y')}"
         text += f" {datetime.strftime(self.round.time_begin, '%H:%M')}"
-        text += f" au "
+        text += ' au '
         if self.round.date_end:
             text += f"{datetime.strftime(self.round.date_end, '%d/%m/%Y')}"
             text += f" {datetime.strftime(self.round.time_end, '%H:%M')}"
@@ -88,9 +94,13 @@ class RoundView:
         for i, match in enumerate(self.round.matches):
             text_match = f'Match {i+1}'
             nb_of_space = len_for_players - len(str(match[0][0]))
-            text_white = str(match[0][0]) + nb_of_space*' ' + '|' + f' score:{match[0][1]}'
+            text_white = str(match[0][0]) \
+                         + nb_of_space*' ' \
+                         + '|' + f' score:{match[0][1]}'
             nb_of_space = len_for_players - len(str(match[1][0]))
-            text_black = f' | {match[1][0]}' + nb_of_space*' ' + '|' + f' score:{match[1][1]}'
+            text_black = f' | {match[1][0]}' + \
+                         nb_of_space*' ' + '|' + \
+                         f' score:{match[1][1]}'
             print(text_match + ' | ' + text_white
                   + (pos_to_align-len(text_white))*' ' + text_black)
 
