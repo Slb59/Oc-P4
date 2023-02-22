@@ -1,34 +1,27 @@
 import os
-import json
-import chessmanager
-
 from datetime import datetime
-
 from logs import LOGGER
 
 from chessmanager.models import Player
 from chessmanager.models import Tournament
 from chessmanager.models import TOURNAMENT_CLOSED, TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
 from chessmanager.models import MAX_NUMBER_OF_PLAYERS
-from chessmanager.models import Round
 
 from chessmanager.views import ChessManagerView
 from chessmanager.views import TournamentView
 from chessmanager.views import prompt_tournament_id
 from chessmanager.views import prompt_tournament_data
-from chessmanager.views import DatabaseView
-from chessmanager.views import PlayerView
 from chessmanager.views import prompt_player_id
 from chessmanager.views import prompt_player_data
 
 from .tournament_controller import TournamentController
 from .reports import ChessManagerReports
+from .database import ChessManagerDatabase
 
 
 class ChessManager:
     """ Main controller of the application """
     def __init__(self, parameters):
-        self.version = chessmanager.controllers.__version__
         self.output_directory = parameters.output_directory
         self.data_directory = parameters.data_directory
         self.app_messages = ChessManagerView(self)
@@ -38,71 +31,6 @@ class ChessManager:
 
     def __str__(self):
         return "Gestionnaire de tournois d'échecs"
-
-    def save_players(self):
-        """ save the list of players in players.json file """
-        filename = self.data_directory + '/players.json'
-        with open(filename, 'w', encoding="utf-8") as json_file:
-            json.dump(
-                [o.to_dict() for o in self.players],
-                json_file,
-                indent=4,
-                separators=(',', ': ')
-        )
-
-    def load_players(self):
-        filename = self.data_directory + '/players.json'
-        database_view = DatabaseView(filename)
-        try:
-            with open(filename, encoding="utf-8") as f:
-                data = json.load(f)
-            for elem in data:
-                player = Player(**elem)
-                self.players.append(player)
-            database_view.display_database_loaded()
-        except FileNotFoundError:
-            database_view.display_database_not_found()
-
-    def save_tournaments(self):
-        filename = self.data_directory + '/tournaments.json'
-        LOGGER.debug("Save tournament in " + filename)
-        with open(filename, 'w', encoding='utf8') as json_file:
-            json.dump(
-                [o.to_dict() for o in self.tournaments],
-                json_file,
-                indent=4,
-                separators=(',', ': ')
-            )
-
-    def load_tournaments(self):
-        filename = self.data_directory + '/tournaments.json'
-        database_view = DatabaseView(filename)
-        try:
-            with open(filename, encoding='utf8') as f:
-                data = json.load(f)
-            for elem in data:
-                tournament = Tournament(elem['tournament_id'], elem['title'], elem['description'],
-                                        elem['area'], elem['date_begin'], elem['date_end'],
-                                        elem['nb_of_rounds'], elem['state'])
-                for player in elem['players']:
-                    new_player = Player(**player)
-                    tournament.players.append(new_player)
-                for a_round in elem['rounds']:
-                    new_round = Round(a_round['round_id'], a_round['name'], a_round['date_begin'],
-                                      a_round['time_begin'], a_round['date_end'], a_round['time_end'],
-                                      a_round['state'])
-                    for a_match in a_round['matches']:
-                        player_white = Player(**a_match[0][0])
-                        player_black = Player(**a_match[1][0])
-                        new_match = [player_white, a_match[0][1]], [player_black, a_match[1][1]]
-                        new_round.matches.append(new_match)
-
-                    tournament.rounds.append(new_round)
-
-                self.tournaments.append(tournament)
-            database_view.display_database_loaded()
-        except FileNotFoundError:
-            database_view.display_database_not_found()
 
     def get_tournament(self, tournament_id):
         """ return a tournament if tournament_id is in tournaments list
@@ -144,7 +72,8 @@ class ChessManager:
         else:
             tournament_controller = TournamentController(tournament)
             tournament_controller.close_round()
-        self.save_tournaments()
+        database = ChessManagerDatabase(self)
+        database.save_tournaments()
 
     def check_directories(self):
         """ create the directories output and data if not exists """
@@ -175,7 +104,8 @@ class ChessManager:
             self.players.append(player)
 
             # save players database
-            self.save_players()
+            database = ChessManagerDatabase(self)
+            database.save_players()
         else:
             chess_manager_view.error_player_already_exists()
 
@@ -202,7 +132,8 @@ class ChessManager:
             player.chess_level = player_data[3]
 
             # save players database
-            self.save_players()
+            database = ChessManagerDatabase(self)
+            database.save_players()
 
     def create_tournament(self):
         """
@@ -244,7 +175,8 @@ class ChessManager:
                                   tournament_data[3], tournament_data[4])
         a_tournament.players = players
         self.tournaments.append(a_tournament)
-        self.save_tournaments()
+        database = ChessManagerDatabase(self)
+        database.save_tournaments()
 
     def start_tournament(self):
         """
@@ -269,7 +201,8 @@ class ChessManager:
             tournament_controller = TournamentController(a_tournament)
             tournament_controller.create_round()
             a_tournament.state = TOURNAMENT_STARTED
-            self.save_tournaments()
+            database = ChessManagerDatabase(self)
+            database.save_tournaments()
 
     def record_a_match(self):
         """
@@ -296,7 +229,8 @@ class ChessManager:
             tournament_controller = TournamentController(a_tournament)
             tournament_controller.record_score()
             tournament_view.display_tournament_data()
-            self.save_tournaments()
+            database = ChessManagerDatabase(self)
+            database.save_tournaments()
 
     def ask_tournament_id(self):
         """
@@ -355,8 +289,9 @@ class ChessManager:
         chess_manager_view.display_welcome()
 
         # load database
-        self.load_players()
-        self.load_tournaments()
+        database = ChessManagerDatabase(self)
+        database.load_players()
+        database.load_tournaments()
         chess_manager_view.display_chess_data()
 
         running = True
