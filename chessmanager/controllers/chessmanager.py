@@ -179,7 +179,7 @@ class ChessManager:
         database = ChessManagerDatabase(self)
         database.save_tournaments()
 
-    def start_tournament(self):
+    def call_start_tournament(self):
         """
         - display the tournaments
         - ask the id of the tournament to start
@@ -190,18 +190,8 @@ class ChessManager:
         chess_manager_view.display_all_tournaments()
         tournament_id = prompt_tournament_id(self)
         a_tournament = self.get_tournament(tournament_id)
-        if a_tournament is None:
-            chess_manager_view.error_tournament_not_found()
-        elif a_tournament.state == TOURNAMENT_CLOSED:
-            tournament_view = TournamentView(a_tournament)
-            tournament_view.error_tournament_closed()
-        elif a_tournament.state == TOURNAMENT_STARTED:
-            tournament_view = TournamentView(a_tournament)
-            tournament_view.error_tournament_started()
-        else:
-            tournament_controller = TournamentController(a_tournament)
-            tournament_controller.create_round()
-            a_tournament.state = TOURNAMENT_STARTED
+        tournament_controller = TournamentController(a_tournament)
+        if tournament_controller.start_tournament():
             database = ChessManagerDatabase(self)
             database.save_tournaments()
 
@@ -324,7 +314,7 @@ class ChessManager:
 
             #  start a tournament
             elif answer == chess_manager_view.main_menu_choices()[3]:
-                self.start_tournament()
+                self.call_start_tournament()
 
             # record the results
             elif answer == chess_manager_view.main_menu_choices()[4]:

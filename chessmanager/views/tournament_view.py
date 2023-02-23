@@ -118,3 +118,6 @@ class TournamentView:
 
     def error_all_matches_not_closed(self):
         print("!!! Les scores des matches ne sont pas tous enregistrés.")
+
+    def error_tournament_not_found(self):
+        print("!! Ce tournoi n'existe pas dans la base")

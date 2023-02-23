@@ -9,9 +9,10 @@ from chessmanager.views import RoundView
 from chessmanager.views import TournamentView
 
 from chessmanager.models import Round
+from chessmanager.models import TOURNAMENT_CLOSED
+from chessmanager.models import TOURNAMENT_STARTED
 
 from .round_controller import RoundController
-from ..models.tournament import TOURNAMENT_CLOSED
 
 
 class TournamentController:
@@ -45,6 +46,23 @@ class TournamentController:
             if round_id == r.round_id:
                 return r
         return None
+
+    def start_tournament(self) -> bool:
+        tournament_view = TournamentView(self.tournament)
+        if self.tournament is None:
+            tournament_view.error_tournament_not_found()
+            return False
+        elif self.tournament.state == TOURNAMENT_CLOSED:
+            tournament_view.error_tournament_closed()
+            return False
+        elif self.tournament.state == TOURNAMENT_STARTED:
+            tournament_view.error_tournament_started()
+            return False
+        else:
+            tournament_controller = TournamentController(self.tournament)
+            tournament_controller.create_round()
+            self.tournament.state = TOURNAMENT_STARTED
+            return True
 
     def record_score(self):
         last_round = self.tournament.rounds[-1]
