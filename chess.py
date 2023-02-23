@@ -1,7 +1,7 @@
 from chessmanager.controllers import ArgParser
 from chessmanager.controllers import ChessManager
 
-""" """
+""" __ """
 if __name__ == '__main__':
     args = ArgParser()
     the_parameters = args.read_parameters()
