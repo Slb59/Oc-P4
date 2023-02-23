@@ -1,87 +1,49 @@
 import json
+
+from datetime import datetime
+from tinydb import TinyDB
+from tinydb import where
+from tinydb import Query
 from logs import LOGGER
 from chessmanager.models import Player
 from chessmanager.models import Tournament
 from chessmanager.models import Round
 from chessmanager.views import DatabaseView
+from chessmanager.views import ChessManagerView
+from chessmanager.views import error_player_not_exist
 
 
-class ChessManagerDatabase:
-    """
-    Manage save and load of a chess_manager
-    """
+class PlayerDatabase:
+    def __init__(self, folder, player):
+        self.player = player
+        filename = folder + '/db.json'
+        db = TinyDB(filename)
+        self.players_table = db.table('players')
 
-    def __init__(self, chess_manager):
-        self.chess_manager = chess_manager
+    def to_dict(self) -> dict:
+        a_dict = {
+            "chess_id": self.player.chess_id,
+            "last_name": self.player.last_name,
+            "first_name": self.player.first_name,
+            "birthday": datetime.strftime(self.player.birthday, '%d/%m/%Y'),
+            "chess_level": self.player.chess_level,
+            "current_score": self.player.current_score
+        }
+        return a_dict
 
-    def save_players(self):
-        """ save the list of players in players.json file """
-        filename = self.chess_manager.data_directory + '/players.json'
-        with open(filename, 'w', encoding="utf-8") as json_file:
-            json.dump(
-                [o.to_dict() for o in self.chess_manager.players],
-                json_file,
-                indent=4,
-                separators=(',', ': ')
-            )
+    def from_dict(self, player_dict) -> Player:
+        return Player(**player_dict)
+    def save(self):
+        self.players_table.insert(self.to_dict())
 
-    def load_players(self):
-        filename = self.chess_manager.data_directory + '/players.json'
-        database_view = DatabaseView(filename)
+    def get(self, chess_id) -> Player:
         try:
-            with open(filename, encoding="utf-8") as f:
-                data = json.load(f)
-            for elem in data:
-                player = Player(**elem)
-                self.chess_manager.players.append(player)
-            database_view.display_database_loaded()
-        except FileNotFoundError:
-            database_view.display_database_not_found()
+            player_dict = self.players_table.get(where('chess_id') == chess_id)
+            player = self.from_dict(player_dict)
+            return player
+        except IndexError:
+            error_player_not_exist(self)
+            return Player('', '', '', '', '')
 
-    def save_tournaments(self):
-        filename = self.chess_manager.data_directory + '/tournaments.json'
-        LOGGER.debug("Save tournament in " + filename)
-        with open(filename, 'w', encoding='utf8') as json_file:
-            json.dump(
-                [o.to_dict() for o in self.chess_manager.tournaments],
-                json_file,
-                indent=4,
-                separators=(',', ': ')
-            )
 
-    def load_tournaments(self):
-        filename = self.chess_manager.data_directory + '/tournaments.json'
-        database_view = DatabaseView(filename)
-        try:
-            with open(filename, encoding='utf8') as f:
-                data = json.load(f)
-            for elem in data:
-                tournament = Tournament(elem['tournament_id'],
-                                        elem['title'], elem['description'],
-                                        elem['area'], elem['date_begin'],
-                                        elem['date_end'],
-                                        elem['nb_of_rounds'], elem['state'])
-                for player in elem['players']:
-                    new_player = Player(**player)
-                    tournament.players.append(new_player)
-                for a_round in elem['rounds']:
-                    new_round = Round(a_round['round_id'],
-                                      a_round['name'],
-                                      a_round['date_begin'],
-                                      a_round['time_begin'],
-                                      a_round['date_end'],
-                                      a_round['time_end'],
-                                      a_round['state'])
-                    for a_match in a_round['matches']:
-                        player_white = Player(**a_match[0][0])
-                        player_black = Player(**a_match[1][0])
-                        new_match = [player_white, a_match[0][1]], \
-                                    [player_black, a_match[1][1]]
-                        new_round.matches.append(new_match)
 
-                    tournament.rounds.append(new_round)
-
-                self.chess_manager.tournaments.append(tournament)
-            database_view.display_database_loaded()
-        except FileNotFoundError:
-            database_view.display_database_not_found()

@@ -33,6 +33,10 @@ def prompt_player_data(self) -> tuple:
     return first_name, last_name, birthday, chess_level
 
 
+def error_player_not_exist(self):
+    print("!! Ce joueur n'existe pas")
+
+
 class PlayerView:
     """
     Manage display for player

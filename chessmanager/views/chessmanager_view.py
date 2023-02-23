@@ -95,8 +95,7 @@ class ChessManagerView:
     def error_player_already_selected(self):
         print('!! Ce joueur est déjà présent dans la sélection')
 
-    def error_player_not_exist(self):
-        print("!! Ce joueur n'existe pas")
+
 
     def error_tournament_not_found(self):
         print("!! Ce tournoi n'existe pas dans la base")

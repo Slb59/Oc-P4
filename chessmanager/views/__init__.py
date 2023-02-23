@@ -10,4 +10,5 @@ from .tournament_view import prompt_tournament_data  # noqa: F401
 from .player_view import PlayerView  # noqa: F401
 from .player_view import prompt_player_id  # noqa: F401
 from .player_view import prompt_player_data  # noqa: F401
+from .player_view import error_player_not_exist  # noqa: F401
 from .check import check_date_format  # noqa: F401
