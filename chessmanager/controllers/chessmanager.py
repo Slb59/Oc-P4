@@ -12,15 +12,14 @@ from chessmanager.views import ChessManagerView
 from chessmanager.views import TournamentView
 from chessmanager.views import prompt_tournament_id
 from chessmanager.views import prompt_tournament_data
-from chessmanager.views import prompt_player_id
-from chessmanager.views import prompt_player_data
+from chessmanager.views import PlayerStaticView
 
 from .tournament_controller import TournamentController
 from .reports import ChessManagerReports
-from .database import ChessManagerDatabase
+from .database import PlayerDatabase
 
 
-class ChessManager:
+class ChessManager(PlayerStaticView):
     """ Main controller of the application """
     def __init__(self, parameters):
         self.output_directory = parameters.output_directory
@@ -73,8 +72,8 @@ class ChessManager:
         else:
             tournament_controller = TournamentController(tournament)
             tournament_controller.close_round()
-        database = ChessManagerDatabase(self)
-        database.save_tournaments()
+        # database = ChessManagerDatabase(self)
+        # database.save_tournaments()
 
     def check_directories(self):
         """ create the directories output and data if not exists """
@@ -95,18 +94,17 @@ class ChessManager:
             prompt an error
         """
         chess_manager_view = ChessManagerView(self)
-        chess_id = prompt_player_id(self)
-        player = self.get_player(chess_id)
+        chess_id = self.prompt_player_id(self)
+        db = PlayerDatabase(self.data_directory)
+        player = db.get(chess_id)
 
         if player is None:
-            player_data = prompt_player_data(self)
+            player_data = self.prompt_player_data(self)
             player = Player(chess_id, player_data[1], player_data[0],
                             player_data[2], player_data[3])
             self.players.append(player)
-
             # save players database
-            database = ChessManagerDatabase(self)
-            database.save_players()
+            db.save(player)
         else:
             chess_manager_view.error_player_already_exists()
 
@@ -121,20 +119,19 @@ class ChessManager:
         # display the list of players
         chess_manager_view.display_all_players()
         # prompt the chess id
-        chess_id = prompt_player_id(self)
+        chess_id = self.prompt_player_id(self)
+        db = PlayerDatabase(self.data_directory)
         player = self.get_player(chess_id)
         if player is None:
-            chess_manager_view.error_player_not_exist()
+            self.error_player_not_exist(self)
         else:
-            player_data = prompt_player_data(self)
+            player_data = self.prompt_player_data(self)
             player.last_name = player_data[1]
             player.first_name = player_data[0]
             player.birthday = datetime.strptime(player_data[2], '%d/%m/%Y')
             player.chess_level = player_data[3]
-
             # save players database
-            database = ChessManagerDatabase(self)
-            database.save_players()
+            db.save(player)
 
     def create_tournament(self):
         """
@@ -158,10 +155,10 @@ class ChessManager:
         players = []
         players_id = []
         while len(players) < MAX_NUMBER_OF_PLAYERS:
-            chess_id = prompt_player_id(self)
+            chess_id = self.prompt_player_id(self)
             player = self.get_player(chess_id)
             if player is None:
-                chess_manager_view.error_player_not_exist()
+                self.error_player_not_exist(self)
             elif player in players:
                 chess_manager_view.error_player_already_selected()
             else:
@@ -176,8 +173,8 @@ class ChessManager:
                                   tournament_data[3], tournament_data[4])
         a_tournament.players = players
         self.tournaments.append(a_tournament)
-        database = ChessManagerDatabase(self)
-        database.save_tournaments()
+        # database = ChessManagerDatabase(self)
+        # database.save_tournaments()
 
     def call_start_tournament(self):
         """
@@ -192,8 +189,9 @@ class ChessManager:
         a_tournament = self.get_tournament(tournament_id)
         tournament_controller = TournamentController(a_tournament)
         if tournament_controller.start_tournament():
-            database = ChessManagerDatabase(self)
-            database.save_tournaments()
+            pass
+            # database = ChessManagerDatabase(self)
+            # database.save_tournaments()
 
     def record_a_match(self):
         """
@@ -220,8 +218,8 @@ class ChessManager:
             tournament_controller = TournamentController(a_tournament)
             tournament_controller.record_score()
             tournament_view.display_tournament_data()
-            database = ChessManagerDatabase(self)
-            database.save_tournaments()
+            # database = ChessManagerDatabase(self)
+            # database.save_tournaments()
 
     def ask_tournament_id(self):
         """
@@ -279,10 +277,11 @@ class ChessManager:
         chess_manager_view = ChessManagerView(self)
         chess_manager_view.display_welcome()
 
-        # load database
-        database = ChessManagerDatabase(self)
-        database.load_players()
-        database.load_tournaments()
+        # load player database
+        db = PlayerDatabase(self.data_directory)
+        self.players = db.get_players()
+        # load tournament database
+        # database.load_tournaments()
         chess_manager_view.display_chess_data()
 
         running = True

@@ -1,49 +1,92 @@
-import json
-
 from datetime import datetime
 from tinydb import TinyDB
 from tinydb import where
-from tinydb import Query
-from logs import LOGGER
 from chessmanager.models import Player
 from chessmanager.models import Tournament
-from chessmanager.models import Round
-from chessmanager.views import DatabaseView
-from chessmanager.views import ChessManagerView
-from chessmanager.views import error_player_not_exist
+from chessmanager.views import PlayerStaticView
 
 
-class PlayerDatabase:
-    def __init__(self, folder, player):
-        self.player = player
-        filename = folder + '/db.json'
-        db = TinyDB(filename)
-        self.players_table = db.table('players')
+class TournamentDatabase(PlayerStaticView):
+    def __init__(self, folder):
+        self.data_directory = folder
+        self.filename = folder + '/db.json'
+        self.db = TinyDB(self.filename)
+        self.players_table = self.db.table('tournament')
 
-    def to_dict(self) -> dict:
+    def tournament_to_dict(self, tournament) -> dict:
+        list_of_players = []
+        for a_player in tournament.players:
+            list_of_players.append(a_player.chess_id)
+        list_of_rounds = []
+        for a_round in tournament.rounds:
+            list_of_rounds.append(a_round.round_id)
         a_dict = {
-            "chess_id": self.player.chess_id,
-            "last_name": self.player.last_name,
-            "first_name": self.player.first_name,
-            "birthday": datetime.strftime(self.player.birthday, '%d/%m/%Y'),
-            "chess_level": self.player.chess_level,
-            "current_score": self.player.current_score
+            "tournament_id": tournament.tournament_id,
+            "title": tournament.title,
+            "description": tournament.description,
+            "area": tournament.area,
+            "date_begin": tournament.date_begin,
+            "date_end": tournament.date_end,
+            "nb_of_rounds": tournament.nb_of_rounds,
+            "state": tournament.state,
+            "players": list_of_players,
+            "rounds": list_of_rounds
         }
         return a_dict
 
-    def from_dict(self, player_dict) -> Player:
+    def tournament_from_dict(self, a_dict) -> Tournament:
+        db_players = PlayerDatabase(self.data_directory)
+        for elem in a_dict:
+            tournament = Tournament(elem['tournament_id'],
+                                    elem['title'], elem['description'],
+                                    elem['area'], elem['date_begin'],
+                                    elem['date_end'],
+                                    elem['nb_of_rounds'], elem['state'])
+            for player_id in elem['players']:
+                tournament.players.append(db_players.get(player_id))
+
+
+class PlayerDatabase(PlayerStaticView):
+    def __init__(self, folder):
+        self.filename = folder + '/db.json'
+        self.db = TinyDB(self.filename)
+        self.players_table = self.db.table('players')
+
+    def player_to_dict(self, player) -> dict:
+        a_dict = {
+            "chess_id": player.chess_id,
+            "last_name":player.last_name,
+            "first_name": player.first_name,
+            "birthday": datetime.strftime(player.birthday, '%d/%m/%Y'),
+            "chess_level": player.chess_level,
+            "current_score": player.current_score
+        }
+        return a_dict
+
+    def player_from_dict(self, player_dict) -> Player:
         return Player(**player_dict)
-    def save(self):
-        self.players_table.insert(self.to_dict())
 
-    def get(self, chess_id) -> Player:
-        try:
-            player_dict = self.players_table.get(where('chess_id') == chess_id)
-            player = self.from_dict(player_dict)
+    def save(self, player):
+        if self.get(player.chess_id) is None:
+            self.players_table.insert(self.player_to_dict(player))
+        else:
+            self.players_table.update(
+                self.player_to_dict(player),
+                where('chess_id') == player.chess_id
+            )
+
+    def get(self, chess_id):
+        player_dict = self.players_table.get(where('chess_id') == chess_id)
+        if player_dict:
+            player = self.player_from_dict(player_dict)
             return player
-        except IndexError:
-            error_player_not_exist(self)
-            return Player('', '', '', '', '')
+        else:
+            return None
 
-
+    def get_players(self) -> list:
+        players_dict = self.players_table.all()
+        players = []
+        for elem in players_dict:
+            players.append(self.player_from_dict(elem))
+        return players
 

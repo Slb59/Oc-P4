@@ -3,7 +3,7 @@ import questionary
 from datetime import datetime
 
 from .round_view import RoundView
-from .player_view import PlayerView
+from .player_view import PlayerDisplayView
 from chessmanager.models.tournament import TOURNAMENT_CLOSED
 from chessmanager.models.tournament import TOURNAMENT_STARTED
 from .check import check_date_format
@@ -96,7 +96,7 @@ class TournamentView:
             # display the players
             print('Joueurs participants:')
             for a_player in self.tournament.players:
-                a_player_view = PlayerView(a_player)
+                a_player_view = PlayerDisplayView(a_player)
                 a_player_view.display_player_data()
                 print(60*'-')
             # display the rounds

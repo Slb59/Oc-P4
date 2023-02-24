@@ -1,6 +1,6 @@
 import questionary
 
-from .player_view import PlayerView
+from .player_view import PlayerDisplayView
 from .tournament_view import TournamentView
 
 
@@ -69,7 +69,7 @@ class ChessManagerView:
         if len(self.chess_manager.players):
             print('!! Aucun joueur actuellemnt dans la base')
         for player in self.chess_manager.players:
-            player_view = PlayerView(player)
+            player_view = PlayerDisplayView(player)
             player_view.display_player_data()
             print('')
 
