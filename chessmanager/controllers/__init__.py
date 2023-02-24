@@ -8,3 +8,4 @@ from .tournament_controller import TournamentController  # noqa: F401
 from .round_controller import RoundController  # noqa: F401
 from .reports import ChessManagerReports  # noqa: F401
 from .database import PlayerDatabase  # noqa: F401
+from .database import TournamentDatabase  # noqa: F401

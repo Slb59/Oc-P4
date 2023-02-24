@@ -11,7 +11,7 @@ class TournamentDatabase(PlayerStaticView):
         self.data_directory = folder
         self.filename = folder + '/db.json'
         self.db = TinyDB(self.filename)
-        self.players_table = self.db.table('tournament')
+        self.tournaments_table = self.db.table('tournament')
 
     def tournament_to_dict(self, tournament) -> dict:
         list_of_players = []
@@ -36,14 +36,42 @@ class TournamentDatabase(PlayerStaticView):
 
     def tournament_from_dict(self, a_dict) -> Tournament:
         db_players = PlayerDatabase(self.data_directory)
-        for elem in a_dict:
-            tournament = Tournament(elem['tournament_id'],
-                                    elem['title'], elem['description'],
-                                    elem['area'], elem['date_begin'],
-                                    elem['date_end'],
-                                    elem['nb_of_rounds'], elem['state'])
-            for player_id in elem['players']:
-                tournament.players.append(db_players.get(player_id))
+        tournament = Tournament(a_dict['tournament_id'],
+                                a_dict['title'], a_dict['description'],
+                                a_dict['area'],
+                                a_dict['date_begin'],
+                                a_dict['date_end'],
+                                a_dict['nb_of_rounds'], a_dict['state'])
+        for player_id in a_dict['players']:
+            tournament.players.append(db_players.get(player_id))
+        for round_id in a_dict['rounds']:
+            pass
+        return tournament
+
+    def get(self, tournament_id):
+        tournament_dict = self.tournaments_table.get(
+            where('tournament_id') == tournament_id)
+        if tournament_dict:
+            tournament = self.tournament_from_dict(tournament_dict)
+            return tournament
+        else:
+            return None
+
+    def save(self, tournament):
+        if self.get(tournament.tournament_id) is None:
+            self.tournaments_table.insert(self.tournament_to_dict(tournament))
+        else:
+            self.tournaments_table.update(
+                self.tournament_to_dict(tournament),
+                where('tournament_id') == tournament.tournament_id
+            )
+
+    def get_tournaments(self) -> list:
+        tournaments_dict = self.tournaments_table.all()
+        tournaments = []
+        for elem in tournaments_dict:
+            tournaments.append(self.tournament_from_dict(elem))
+        return tournaments
 
 
 class PlayerDatabase(PlayerStaticView):

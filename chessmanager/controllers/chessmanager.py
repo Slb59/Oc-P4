@@ -17,6 +17,7 @@ from chessmanager.views import PlayerStaticView
 from .tournament_controller import TournamentController
 from .reports import ChessManagerReports
 from .database import PlayerDatabase
+from .database import TournamentDatabase
 
 
 class ChessManager(PlayerStaticView):
@@ -173,6 +174,8 @@ class ChessManager(PlayerStaticView):
                                   tournament_data[3], tournament_data[4])
         a_tournament.players = players
         self.tournaments.append(a_tournament)
+        db = TournamentDatabase(self.data_directory)
+        db.save(a_tournament)
         # database = ChessManagerDatabase(self)
         # database.save_tournaments()
 
@@ -281,6 +284,8 @@ class ChessManager(PlayerStaticView):
         db = PlayerDatabase(self.data_directory)
         self.players = db.get_players()
         # load tournament database
+        db = TournamentDatabase(self.data_directory)
+        self.tournaments = db.get_tournaments()
         # database.load_tournaments()
         chess_manager_view.display_chess_data()
 
