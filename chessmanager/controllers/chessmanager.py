@@ -290,41 +290,43 @@ class ChessManager:
         while running:
             answer = chess_manager_view.display_main_menu()
             LOGGER.debug("main menu choice " + answer)
+            confirm = chess_manager_view.prompt_are_you_sure()
+            if confirm == 'Y':
 
-            # quit
-            if answer == chess_manager_view.main_menu_choices()[7]:
-                running = False
+                # quit
+                if answer == chess_manager_view.main_menu_choices()[7]:
+                    running = False
 
-            # add a player
-            elif answer == chess_manager_view.main_menu_choices()[0]:
-                self.add_player()
+                # add a player
+                elif answer == chess_manager_view.main_menu_choices()[0]:
+                    self.add_player()
 
-            # modify a player
-            elif answer == chess_manager_view.main_menu_choices()[1]:
-                self.modify_player()
+                # modify a player
+                elif answer == chess_manager_view.main_menu_choices()[1]:
+                    self.modify_player()
 
-            # create a tournament
-            elif answer == chess_manager_view.main_menu_choices()[2]:
-                # check the number of players in the database
-                if len(self.players) < MAX_NUMBER_OF_PLAYERS:
-                    chess_manager_view.error_not_enough_players()
-                    continue
-                else:
-                    self.create_tournament()
+                # create a tournament
+                elif answer == chess_manager_view.main_menu_choices()[2]:
+                    # check the number of players in the database
+                    if len(self.players) < MAX_NUMBER_OF_PLAYERS:
+                        chess_manager_view.error_not_enough_players()
+                        continue
+                    else:
+                        self.create_tournament()
 
-            #  start a tournament
-            elif answer == chess_manager_view.main_menu_choices()[3]:
-                self.call_start_tournament()
+                #  start a tournament
+                elif answer == chess_manager_view.main_menu_choices()[3]:
+                    self.call_start_tournament()
 
-            # record the results
-            elif answer == chess_manager_view.main_menu_choices()[4]:
-                self.record_a_match()
+                # record the results
+                elif answer == chess_manager_view.main_menu_choices()[4]:
+                    self.record_a_match()
 
-            # end a round
-            elif answer == chess_manager_view.main_menu_choices()[5]:
-                self.close_round()
+                # end a round
+                elif answer == chess_manager_view.main_menu_choices()[5]:
+                    self.close_round()
 
-            # generate reports
-            elif answer == chess_manager_view.main_menu_choices()[6]:
-                self.generate_reports()
+                # generate reports
+                elif answer == chess_manager_view.main_menu_choices()[6]:
+                    self.generate_reports()
         LOGGER.debug("Quit program")

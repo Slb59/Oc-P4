@@ -34,6 +34,15 @@ class ChessManagerView:
                 "Revenir au menu principal"
             ]
 
+    def prompt_are_you_sure(self) -> str :
+        """ Ask to confirm choice """
+        answer = questionary.text(
+            "Etes vous sûr de votre choix (Y/N):",
+            validate=lambda text: True if text in ['Y', 'N']
+            else "Y or N ?"
+        ).ask()
+        return answer
+
     def display_output_directory_created(self):
         print(f"Le répertoire {self.chess_manager.output_directory} est créé")
 
