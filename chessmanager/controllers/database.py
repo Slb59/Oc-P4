@@ -3,14 +3,92 @@ from tinydb import TinyDB
 from tinydb import where
 from chessmanager.models import Player
 from chessmanager.models import Tournament
+from chessmanager.models import Round
 from chessmanager.views import PlayerStaticView
 
 
-class TournamentDatabase(PlayerStaticView):
+class ChessManagerDatabase:
     def __init__(self, folder):
         self.data_directory = folder
         self.filename = folder + '/db.json'
         self.db = TinyDB(self.filename)
+
+
+class RoundDatabase(PlayerStaticView, ChessManagerDatabase):
+    def __init__(self, folder):
+        super().__init__(folder)
+        self.rounds_table = self.db.table('tournaments')
+
+    def round_to_dict(self, a_round) -> dict:
+        list_of_matches = []
+        for match in a_round.matches:
+            list_of_matches.append(
+                ([match[0][0].to_dict(), match[0][1]],
+                 [match[1][0].to_dict(), match[1][1]])
+            )
+
+        a_dict = {
+            "round_id": a_round.round_id,
+            "name": a_round.name,
+            "date_begin": datetime.strftime(a_round.date_begin, '%d/%m/%Y'),
+            "time_begin": datetime.strftime(a_round.time_begin, '%H:%M'),
+            "date_end": datetime.strftime(
+                a_round.date_end, '%d/%m/%Y') if a_round.date_end else '',
+            "time_end": datetime.strftime(
+                a_round.time_end, '%H:%M') if a_round.time_end else '',
+            "state": a_round.state,
+            "matches": list_of_matches
+        }
+        return a_dict
+
+    def round_from_dict(self, a_dict) -> Round:
+        new_round = Round(a_dict['round_id'],
+                          a_dict['name'],
+                          a_dict['date_begin'],
+                          a_dict['time_begin'],
+                          a_dict['date_end'],
+                          a_dict['time_end'],
+                          a_dict['state'])
+        for a_match in a_dict['matches']:
+            player_white = Player(**a_match[0][0])
+            player_black = Player(**a_match[1][0])
+            new_match = [player_white, a_match[0][1]], \
+                        [player_black, a_match[1][1]]
+            new_round.matches.append(new_match)
+        return new_round
+
+    def get(self, tournament_id, round_id):
+        tournament_dict = self.rounds_table.get(
+            where('tournament_id') == tournament_id)
+        if tournament_dict:
+            for round_dict in tournament_dict['rounds']:
+                the_round = self.round_from_dict(round_dict)
+                if the_round == round_id:
+                    return the_round
+            return None
+        else:
+            return None
+
+    def save(self, a_round):
+        if self.get(a_round.tournament_id) is None:
+            self.rounds_table.insert(self.round_to_dict(a_round))
+        else:
+            self.rounds_table.update(
+                self.round_to_dict(a_round),
+                where('round_id') == a_round.round_id
+            )
+
+    def get_rounds(self) -> list:
+        tournaments_dict = self.rounds_table.all()
+        tournaments = []
+        for elem in tournaments_dict:
+            tournaments.append(self.round_from_dict(elem))
+        return tournaments
+
+
+class TournamentDatabase(PlayerStaticView, ChessManagerDatabase):
+    def __init__(self, folder):
+        super().__init__(folder)
         self.tournaments_table = self.db.table('tournament')
 
     def tournament_to_dict(self, tournament) -> dict:
@@ -45,7 +123,8 @@ class TournamentDatabase(PlayerStaticView):
         for player_id in a_dict['players']:
             tournament.players.append(db_players.get(player_id))
         for round_id in a_dict['rounds']:
-            pass
+            db = RoundDatabase(self.data_directory)
+            db.get(tournament.tournament_id, round_id)
         return tournament
 
     def get(self, tournament_id):
@@ -74,10 +153,9 @@ class TournamentDatabase(PlayerStaticView):
         return tournaments
 
 
-class PlayerDatabase(PlayerStaticView):
+class PlayerDatabase(PlayerStaticView, ChessManagerDatabase):
     def __init__(self, folder):
-        self.filename = folder + '/db.json'
-        self.db = TinyDB(self.filename)
+        super().__init__(folder)
         self.players_table = self.db.table('players')
 
     def player_to_dict(self, player) -> dict:
