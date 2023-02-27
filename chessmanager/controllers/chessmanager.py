@@ -5,7 +5,7 @@ from logs import LOGGER
 from chessmanager.models import Player
 from chessmanager.models import Tournament
 from chessmanager.models import TOURNAMENT_CLOSED
-from chessmanager.models import TOURNAMENT_STARTED, TOURNAMENT_NOT_STARTED
+from chessmanager.models import TOURNAMENT_NOT_STARTED
 from chessmanager.models import MAX_NUMBER_OF_PLAYERS
 
 from chessmanager.views import ChessManagerView

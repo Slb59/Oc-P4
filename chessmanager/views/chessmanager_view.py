@@ -34,7 +34,7 @@ class ChessManagerView:
                 "Revenir au menu principal"
             ]
 
-    def prompt_are_you_sure(self) -> str :
+    def prompt_are_you_sure(self) -> str:
         """ Ask to confirm choice """
         answer = questionary.text(
             "Etes vous sûr de votre choix (Y/N):",
