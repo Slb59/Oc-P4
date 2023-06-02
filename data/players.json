@@ -1,0 +1,130 @@
+[
+    {
+        "chess_id": "AB12345",
+        "last_name": "Carlsen",
+        "first_name": "Magnus",
+        "birthday": "30/11/1990",
+        "chess_level": 2852,
+        "current_score": 0
+    },
+    {
+        "chess_id": "AB12346",
+        "last_name": "Nepomniachtchi",
+        "first_name": "Ian",
+        "birthday": "14/07/1990",
+        "chess_level": 2793,
+        "current_score": 0
+    },
+    {
+        "chess_id": "AB12347",
+        "last_name": "Liren",
+        "first_name": "Ding",
+        "birthday": "24/10/1992",
+        "chess_level": 2788,
+        "current_score": 0
+    },
+    {
+        "chess_id": "AB12348",
+        "last_name": "Alireza",
+        "first_name": "Firouzja",
+        "birthday": "18/06/2003",
+        "chess_level": 2785,
+        "current_score": 0
+    },
+    {
+        "chess_id": "AB12349",
+        "last_name": "Anish",
+        "first_name": "Giri",
+        "birthday": "28/06/1994",
+        "chess_level": "2780",
+        "current_score": 0
+    },
+    {
+        "chess_id": "AB12350",
+        "last_name": "Hikaru",
+        "first_name": "Nakamura",
+        "birthday": "09/12/1987",
+        "chess_level": "2768",
+        "current_score": 0
+    },
+    {
+        "chess_id": "AB12351",
+        "last_name": "Fabiano",
+        "first_name": "Caruana",
+        "birthday": "30/06/1992",
+        "chess_level": "2766",
+        "current_score": 0
+    },
+    {
+        "chess_id": "AB12352",
+        "last_name": "Wesley",
+        "first_name": "So",
+        "birthday": "09/10/1993",
+        "chess_level": "2766",
+        "current_score": 0
+    },
+    {
+        "chess_id": "AA12345",
+        "last_name": "Alphonse",
+        "first_name": "Baracouda",
+        "birthday": "01/01/1990",
+        "chess_level": "1555",
+        "current_score": 0
+    },
+    {
+        "chess_id": "AA78945",
+        "last_name": "Ideal",
+        "first_name": "Bisounours",
+        "birthday": "02/02/1987",
+        "chess_level": "6541",
+        "current_score": 0
+    },
+    {
+        "chess_id": "CC12345",
+        "last_name": "Mimi",
+        "first_name": "Momo",
+        "birthday": "01/01/2000",
+        "chess_level": "1458",
+        "current_score": 0
+    },
+    {
+        "chess_id": "CC55555",
+        "last_name": "Eliane",
+        "first_name": "Mimi",
+        "birthday": "01/02/1900",
+        "chess_level": "1005",
+        "current_score": 0
+    },
+    {
+        "chess_id": "CC88888",
+        "last_name": "Bernard",
+        "first_name": "Mohican",
+        "birthday": "10/10/2000",
+        "chess_level": "1254",
+        "current_score": 0
+    },
+    {
+        "chess_id": "DD11111",
+        "last_name": "Ernest",
+        "first_name": "Bidule",
+        "birthday": "01/01/1994",
+        "chess_level": "1254",
+        "current_score": 0
+    },
+    {
+        "chess_id": "FF45874",
+        "last_name": "Osynia",
+        "first_name": "Bricout",
+        "birthday": "12/05/1990",
+        "chess_level": "2000",
+        "current_score": 0
+    },
+    {
+        "chess_id": "FF54875",
+        "last_name": "Misuk\u00e0",
+        "first_name": "H\u00e9l\u00e8ne",
+        "birthday": "03/03/1990",
+        "chess_level": "1000",
+        "current_score": 0
+    }
+]
